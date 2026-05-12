@@ -2,11 +2,6 @@
   "version": 2,
   "buildCommand": null,
   "outputDirectory": "public",
-  "functions": {
-    "api/recommend.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
