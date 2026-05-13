@@ -5,419 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SideQuest — Cannes Lions 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #080808;
-      --bg-card: #111111;
-      --bg-card-hover: #161616;
-      --border: rgba(255,255,255,0.08);
-      --border-strong: rgba(255,255,255,0.15);
-      --text-primary: #ffffff;
-      --text-secondary: rgba(255,255,255,0.5);
-      --text-tertiary: rgba(255,255,255,0.3);
-      --accent: #ffffff;
-      --accent-green: #00E87A;
-      --chip-active-bg: rgba(0,232,122,0.1);
-      --chip-active-border: rgba(0,232,122,0.4);
-      --chip-active-text: #00E87A;
+      --purple: #2D1B8B;
+      --purple-dark: #1E1060;
+      --purple-mid: #3d2aaa;
+      --orange: #F5A623;
+      --orange-dark: #E09010;
+      --white: #ffffff;
+      --bg: #f7f7fc;
+      --text: #1a1a2e;
+      --text-muted: #6b6b8a;
+      --text-light: #9999bb;
+      --border: #e0e0f0;
+      --card: #ffffff;
     }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
-      padding: 0;
-    }
+    .sq-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0.9rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .sq-nav-logo { font-size: 13px; font-weight: 800; color: var(--purple); letter-spacing: -0.01em; }
+    .sq-nav-pill { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: 0.06em; text-transform: uppercase; background: #eeebff; padding: 5px 14px; border-radius: 20px; }
 
-    /* Header bar */
-    .sq-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 2rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .sq-header-logo {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-    .sq-header-tag {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-    }
+    .sq-hero { background: var(--purple); padding: 4rem 2rem 3.5rem; text-align: center; }
+    .sq-hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.25rem; }
+    .sq-hero-title { font-size: 48px; font-weight: 800; color: var(--white); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 1rem; }
+    .sq-hero-title .dot { color: var(--orange); }
+    .sq-hero-sub { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 400px; margin: 0 auto; }
 
-    /* Main wrap */
-    .sq-wrap { max-width: 700px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    .sq-wrap { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+    .sq-form { display: flex; flex-direction: column; gap: 1.75rem; }
 
-    /* Hero */
-    .sq-hero { margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 2.5rem; }
-    .sq-eyebrow {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent-green);
-      margin-bottom: 1rem;
-    }
-    .sq-title {
-      font-size: 42px;
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-    .sq-sub {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      max-width: 480px;
-    }
+    .sq-field { display: flex; flex-direction: column; gap: 0.6rem; }
+    .sq-label { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); }
+    .sq-hint { font-size: 12px; color: var(--text-light); margin-top: -0.2rem; }
 
-    /* Form */
-    .sq-form { display: flex; flex-direction: column; gap: 2rem; }
-    .sq-field { display: flex; flex-direction: column; gap: 0.75rem; }
-    .sq-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-    .sq-hint { font-size: 12px; color: var(--text-tertiary); margin-top: -0.25rem; }
-
-    .sq-select {
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 14px;
-      font-family: inherit;
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      background: var(--bg-card);
-      color: var(--text-primary);
-      appearance: none;
-      cursor: pointer;
-      transition: border-color 0.15s;
-    }
-    .sq-select:focus { outline: none; border-color: rgba(255,255,255,0.3); }
-    .sq-select option { background: #1a1a1a; }
+    .sq-select { width: 100%; padding: 12px 16px; font-size: 14px; font-family: inherit; font-weight: 500; border: 2px solid var(--border); border-radius: 12px; background: var(--card); color: var(--text); appearance: none; cursor: pointer; transition: border-color 0.15s; }
+    .sq-select:focus { outline: none; border-color: var(--purple-mid); }
 
     .sq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .sq-chip {
-      padding: 8px 16px;
-      font-size: 12px;
-      font-weight: 500;
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
-      cursor: pointer;
-      background: transparent;
-      color: var(--text-secondary);
-      transition: all 0.15s;
-      user-select: none;
-      letter-spacing: 0.01em;
-    }
-    .sq-chip:hover { border-color: rgba(255,255,255,0.3); color: var(--text-primary); }
-    .sq-chip.active {
-      background: var(--chip-active-bg);
-      border-color: var(--chip-active-border);
-      color: var(--chip-active-text);
-      font-weight: 600;
-    }
+    .sq-chip { padding: 8px 16px; font-size: 13px; font-weight: 500; font-family: inherit; border: 2px solid var(--border); border-radius: 24px; cursor: pointer; background: var(--white); color: var(--text-muted); transition: all 0.15s; user-select: none; }
+    .sq-chip:hover { border-color: var(--purple-mid); color: var(--purple); }
+    .sq-chip.active { background: var(--purple); border-color: var(--purple); color: var(--white); font-weight: 700; }
 
-    .sq-submit {
-      margin-top: 0.5rem;
-      padding: 15px 32px;
-      font-size: 13px;
-      font-weight: 700;
-      font-family: inherit;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border: none;
-      border-radius: 4px;
-      background: var(--text-primary);
-      color: var(--bg);
-      cursor: pointer;
-      width: 100%;
-      transition: opacity 0.15s;
-    }
-    .sq-submit:hover { opacity: 0.88; }
+    .sq-submit { margin-top: 0.5rem; padding: 16px 32px; font-size: 16px; font-weight: 800; font-family: inherit; border: none; border-radius: 50px; background: var(--orange); color: var(--purple-dark); cursor: pointer; width: 100%; transition: background 0.15s, transform 0.1s; letter-spacing: 0.01em; }
+    .sq-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .sq-submit:active { transform: translateY(0); }
 
-    /* Loading */
     .sq-loading { display: none; text-align: center; padding: 5rem 1rem; }
-    .sq-spinner {
-      width: 32px; height: 32px;
-      border: 2px solid var(--border-strong);
-      border-top-color: var(--accent-green);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1.25rem;
-    }
+    .sq-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--purple); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1.25rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .sq-loading-text { font-size: 13px; color: var(--text-tertiary); letter-spacing: 0.05em; }
+    .sq-loading-text { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
-    /* Results */
     .sq-results { display: none; flex-direction: column; }
-    .sq-results-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-    .sq-results-eyebrow {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent-green);
-      margin-bottom: 0.5rem;
-    }
-    .sq-results-title { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
-    .sq-results-sub { font-size: 13px; color: var(--text-tertiary); margin-top: 0.4rem; }
 
-    /* Day header */
-    .sq-day-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 2.5rem 0 1rem;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-strong);
-    }
-    .sq-day-badge {
-      background: var(--accent-green);
-      color: #000;
-      border-radius: 4px;
-      padding: 6px 12px;
-      text-align: center;
-      min-width: 56px;
-      flex-shrink: 0;
-    }
-    .sq-day-badge-short { font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
-    .sq-day-badge-num { font-size: 20px; font-weight: 800; line-height: 1.1; }
-    .sq-day-label { font-size: 15px; font-weight: 600; }
-    .sq-day-count { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; letter-spacing: 0.05em; }
+    .sq-results-header { background: var(--purple); border-radius: 18px; padding: 1.75rem 2rem; margin-bottom: 2rem; }
+    .sq-results-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
+    .sq-results-title { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+    .sq-results-sub { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
 
-    /* Event card */
-    .sq-event-row { display: flex; gap: 16px; align-items: stretch; margin-bottom: 10px; }
-    .sq-event-time-col {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      min-width: 70px;
-      flex-shrink: 0;
-      padding-top: 14px;
-    }
-    .sq-event-time {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent-green);
-      white-space: nowrap;
-      text-align: right;
-    }
-    .sq-event-line {
-      flex: 1;
-      width: 1px;
-      background: var(--border);
-      margin: 6px 0;
-    }
-    .sq-event-card {
-      flex: 1;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem 1.25rem;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .sq-event-card:hover { border-color: var(--border-strong); background: var(--bg-card-hover); }
-    .sq-event-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
-    .sq-event-name { font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
-    .sq-event-host { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
-    .sq-priority-badge {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 3px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .sq-priority-high { background: rgba(0,232,122,0.1); color: var(--accent-green); }
-    .sq-priority-medium { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
-    .sq-event-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 11px;
-      color: var(--text-tertiary);
-      margin-bottom: 10px;
-    }
+    .sq-day-header { display: flex; align-items: center; gap: 14px; margin: 2.5rem 0 1rem; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+    .sq-day-badge { background: var(--purple); color: var(--white); border-radius: 12px; padding: 6px 14px; text-align: center; min-width: 58px; flex-shrink: 0; }
+    .sq-day-badge-short { font-size: 9px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; }
+    .sq-day-badge-num { font-size: 22px; font-weight: 800; line-height: 1.1; }
+    .sq-day-label { font-size: 16px; font-weight: 700; color: var(--text); }
+    .sq-day-count { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+    .sq-event-row { display: flex; gap: 14px; align-items: stretch; margin-bottom: 10px; }
+    .sq-event-time-col { display: flex; flex-direction: column; align-items: flex-end; min-width: 76px; flex-shrink: 0; padding-top: 14px; }
+    .sq-event-time { font-size: 11px; font-weight: 700; color: var(--purple); white-space: nowrap; text-align: right; line-height: 1.3; }
+    .sq-event-line { flex: 1; width: 2px; background: var(--border); margin: 6px 0; border-radius: 2px; }
+
+    .sq-event-card { flex: 1; background: var(--card); border: 2px solid var(--border); border-radius: 16px; padding: 1rem 1.25rem; transition: border-color 0.15s, transform 0.1s; }
+    .sq-event-card:hover { border-color: #c5bfee; transform: translateY(-1px); }
+
+    .sq-event-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+    .sq-event-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .sq-event-host { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+    .sq-priority-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .sq-priority-high { background: #eeebff; color: var(--purple); }
+    .sq-priority-medium { background: #f5f5f8; color: var(--text-muted); }
+
+    .sq-event-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; }
     .sq-event-meta span { display: flex; align-items: center; gap: 4px; }
-    .sq-event-reason {
-      font-size: 12px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      border-left: 2px solid var(--accent-green);
-      padding-left: 10px;
-      margin-bottom: 12px;
-    }
-    .sq-rsvp {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      text-decoration: none;
-      border: 1px solid var(--border-strong);
-      padding: 5px 14px;
-      border-radius: 3px;
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .sq-rsvp:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); }
 
-    /* Error */
-    .sq-error { display: none; padding: 1rem 1.25rem; border-radius: 6px; background: rgba(220,0,0,0.1); border: 1px solid rgba(220,0,0,0.2); color: #ff6b6b; font-size: 14px; margin-top: 1rem; }
+    .sq-event-reason { font-size: 13px; color: var(--text-muted); line-height: 1.65; border-left: 3px solid var(--orange); padding-left: 10px; margin-bottom: 12px; }
 
-    /* Restart */
-    .sq-divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0 0; }
-    .sq-restart {
-      margin-top: 1.25rem;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: color 0.15s;
-    }
-    .sq-restart:hover { color: var(--text-secondary); }
+    .sq-rsvp { display: inline-block; font-size: 12px; font-weight: 700; color: var(--purple); text-decoration: none; border: 2px solid var(--purple); padding: 6px 16px; border-radius: 20px; transition: background 0.15s, color 0.15s; }
+    .sq-rsvp:hover { background: var(--purple); color: var(--white); }
+
+    .sq-error { display: none; padding: 1rem 1.25rem; border-radius: 12px; background: #fff0f0; border: 2px solid #ffcccc; color: #cc0000; font-size: 14px; font-weight: 500; margin-top: 1rem; }
+
+    .sq-divider { border: none; border-top: 2px solid var(--border); margin: 2.5rem 0 0; }
+    .sq-restart { margin-top: 1.25rem; font-size: 13px; font-weight: 700; color: var(--purple); background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; opacity: 0.7; transition: opacity 0.15s; }
+    .sq-restart:hover { opacity: 1; }
   </style>
 </head>
 <body>
 
-  <div class="sq-header-bar">
-    <div class="sq-header-logo">Creativ Company</div>
-    <div class="sq-header-tag">Cannes Lions 2026</div>
+<nav class="sq-nav">
+  <div class="sq-nav-logo">Creativ Company</div>
+  <div class="sq-nav-pill">Cannes Lions 2026</div>
+</nav>
+
+<div class="sq-hero">
+  <div class="sq-hero-eyebrow">Welcome to SideQuest</div>
+  <div class="sq-hero-title">Plan your Cannes Itinerary<span class="dot">.</span></div>
+  <div class="sq-hero-sub">Answer a few questions to get a personalized list of events by day.</div>
+</div>
+
+<div class="sq-wrap">
+  <div id="formSection" class="sq-form">
+
+    <div class="sq-field">
+      <label class="sq-label">01 — Organization type</label>
+      <select class="sq-select" id="orgType">
+        <option value="">Select one...</option>
+        <option>Brand / Advertiser</option>
+        <option>Media Agency or Holding Company</option>
+        <option>PR / Communications Firm</option>
+        <option>Ad Publisher or Media Owner</option>
+        <option>AdTech / MarTech Platform</option>
+        <option>VC / Investment</option>
+        <option>Independent / Consultant</option>
+      </select>
+    </div>
+
+    <div class="sq-field">
+      <label class="sq-label">02 — Primary focus this week</label>
+      <div class="sq-hint">Pick up to 2</div>
+      <div class="sq-chips" id="focusChips">
+        <div class="sq-chip" data-val="Closing partnerships or deals">Closing partnerships or deals</div>
+        <div class="sq-chip" data-val="Scouting new technology or vendors">Scouting new technology or vendors</div>
+        <div class="sq-chip" data-val="Client entertainment and relationship management">Client entertainment</div>
+        <div class="sq-chip" data-val="Thought leadership and visibility">Thought leadership & visibility</div>
+        <div class="sq-chip" data-val="Hiring and talent">Hiring and talent</div>
+        <div class="sq-chip" data-val="Learning and trend-tracking">Learning & trend-tracking</div>
+        <div class="sq-chip" data-val="Press and media coverage">Press & media coverage</div>
+      </div>
+    </div>
+
+    <div class="sq-field">
+      <label class="sq-label">03 — Topics most relevant to your work</label>
+      <div class="sq-hint">Select all that apply</div>
+      <div class="sq-chips" id="topicChips">
+        <div class="sq-chip" data-val="AI & Creative Technology">AI & Creative Technology</div>
+        <div class="sq-chip" data-val="Streaming & Connected TV">Streaming & CTV</div>
+        <div class="sq-chip" data-val="Retail & Commerce Media">Retail & Commerce Media</div>
+        <div class="sq-chip" data-val="Social & Creator Economy">Social & Creator Economy</div>
+        <div class="sq-chip" data-val="Brand Purpose & Sustainability">Brand Purpose & Sustainability</div>
+        <div class="sq-chip" data-val="Data, Privacy & Measurement">Data, Privacy & Measurement</div>
+        <div class="sq-chip" data-val="Gaming & In-Game Advertising">Gaming & In-Game Ads</div>
+        <div class="sq-chip" data-val="B2B Marketing & Demand Gen">B2B Marketing</div>
+        <div class="sq-chip" data-val="PR, Culture & Earned Media">PR, Culture & Earned Media</div>
+      </div>
+    </div>
+
+    <div class="sq-field">
+      <label class="sq-label">04 — Cannes experience priority</label>
+      <select class="sq-select" id="expType">
+        <option value="">Select one...</option>
+        <option>Structured sessions and panels</option>
+        <option>Intimate dinners and private gatherings</option>
+        <option>Beach activations and open networking</option>
+        <option>A mix — I want to maximize every hour</option>
+      </select>
+    </div>
+
+    <div class="sq-field">
+      <label class="sq-label">05 — Days in Cannes</label>
+      <div class="sq-chips" id="dayChips">
+        <div class="sq-chip" data-val="Sunday June 21">Sun Jun 21</div>
+        <div class="sq-chip" data-val="Monday June 22">Mon Jun 22</div>
+        <div class="sq-chip" data-val="Tuesday June 23">Tue Jun 23</div>
+        <div class="sq-chip" data-val="Wednesday June 24">Wed Jun 24</div>
+        <div class="sq-chip" data-val="Thursday June 25">Thu Jun 25</div>
+        <div class="sq-chip" data-val="Friday June 26">Fri Jun 26</div>
+      </div>
+    </div>
+
+    <div class="sq-field">
+      <label class="sq-label">06 — Morning preference before 11am</label>
+      <select class="sq-select" id="morningPref">
+        <option value="">Select one...</option>
+        <option>Early networking or structured breakfast sessions</option>
+        <option>Wellness — yoga, fitness, walks</option>
+        <option>Prep time — I hit the ground at 11</option>
+        <option>Whatever's most strategic</option>
+      </select>
+    </div>
+
+    <button class="sq-submit" onclick="handleSubmit()">Build my SideQuest →</button>
   </div>
 
-  <div class="sq-wrap">
-    <div class="sq-hero">
-      <div class="sq-eyebrow">Welcome to SideQuest</div>
-      <div class="sq-title">Plan your Cannes Itinerary</div>
-      <div class="sq-sub">Answer a few questions to get a personalized list of events by day.</div>
-    </div>
-
-    <div id="formSection" class="sq-form">
-
-      <div class="sq-field">
-        <label class="sq-label">01 — Organization type</label>
-        <select class="sq-select" id="orgType">
-          <option value="">Select one...</option>
-          <option>Brand / Advertiser</option>
-          <option>Media Agency or Holding Company</option>
-          <option>PR / Communications Firm</option>
-          <option>Ad Publisher or Media Owner</option>
-          <option>AdTech / MarTech Platform</option>
-          <option>VC / Investment</option>
-          <option>Independent / Consultant</option>
-        </select>
-      </div>
-
-      <div class="sq-field">
-        <label class="sq-label">02 — Primary focus this week</label>
-        <div class="sq-hint">Pick up to 2</div>
-        <div class="sq-chips" id="focusChips">
-          <div class="sq-chip" data-val="Closing partnerships or deals">Closing partnerships or deals</div>
-          <div class="sq-chip" data-val="Scouting new technology or vendors">Scouting new technology or vendors</div>
-          <div class="sq-chip" data-val="Client entertainment and relationship management">Client entertainment</div>
-          <div class="sq-chip" data-val="Thought leadership and visibility">Thought leadership & visibility</div>
-          <div class="sq-chip" data-val="Hiring and talent">Hiring and talent</div>
-          <div class="sq-chip" data-val="Learning and trend-tracking">Learning & trend-tracking</div>
-          <div class="sq-chip" data-val="Press and media coverage">Press & media coverage</div>
-        </div>
-      </div>
-
-      <div class="sq-field">
-        <label class="sq-label">03 — Topics most relevant to your work</label>
-        <div class="sq-hint">Select all that apply</div>
-        <div class="sq-chips" id="topicChips">
-          <div class="sq-chip" data-val="AI & Creative Technology">AI & Creative Technology</div>
-          <div class="sq-chip" data-val="Streaming & Connected TV">Streaming & CTV</div>
-          <div class="sq-chip" data-val="Retail & Commerce Media">Retail & Commerce Media</div>
-          <div class="sq-chip" data-val="Social & Creator Economy">Social & Creator Economy</div>
-          <div class="sq-chip" data-val="Brand Purpose & Sustainability">Brand Purpose & Sustainability</div>
-          <div class="sq-chip" data-val="Data, Privacy & Measurement">Data, Privacy & Measurement</div>
-          <div class="sq-chip" data-val="Gaming & In-Game Advertising">Gaming & In-Game Ads</div>
-          <div class="sq-chip" data-val="B2B Marketing & Demand Gen">B2B Marketing</div>
-          <div class="sq-chip" data-val="PR, Culture & Earned Media">PR, Culture & Earned Media</div>
-        </div>
-      </div>
-
-      <div class="sq-field">
-        <label class="sq-label">04 — Cannes experience priority</label>
-        <select class="sq-select" id="expType">
-          <option value="">Select one...</option>
-          <option>Structured sessions and panels</option>
-          <option>Intimate dinners and private gatherings</option>
-          <option>Beach activations and open networking</option>
-          <option>A mix — I want to maximize every hour</option>
-        </select>
-      </div>
-
-      <div class="sq-field">
-        <label class="sq-label">05 — Days in Cannes</label>
-        <div class="sq-chips" id="dayChips">
-          <div class="sq-chip" data-val="Sunday June 21">Sun Jun 21</div>
-          <div class="sq-chip" data-val="Monday June 22">Mon Jun 22</div>
-          <div class="sq-chip" data-val="Tuesday June 23">Tue Jun 23</div>
-          <div class="sq-chip" data-val="Wednesday June 24">Wed Jun 24</div>
-          <div class="sq-chip" data-val="Thursday June 25">Thu Jun 25</div>
-          <div class="sq-chip" data-val="Friday June 26">Fri Jun 26</div>
-        </div>
-      </div>
-
-      <div class="sq-field">
-        <label class="sq-label">06 — Morning preference before 11am</label>
-        <select class="sq-select" id="morningPref">
-          <option value="">Select one...</option>
-          <option>Early networking or structured breakfast sessions</option>
-          <option>Wellness — yoga, fitness, walks</option>
-          <option>Prep time — I hit the ground at 11</option>
-          <option>Whatever's most strategic</option>
-        </select>
-      </div>
-
-      <button class="sq-submit" onclick="handleSubmit()">Build my SideQuest →</button>
-    </div>
-
-    <div id="loadingSection" class="sq-loading">
-      <div class="sq-spinner"></div>
-      <div class="sq-loading-text" id="loadingText">Scanning fringe events for your profile...</div>
-    </div>
-
-    <div id="errorSection" class="sq-error"></div>
-
-    <div id="resultsSection" class="sq-results">
-      <div class="sq-results-header">
-        <div class="sq-results-eyebrow">Your SideQuest</div>
-        <div class="sq-results-title">Cannes Itinerary</div>
-        <div class="sq-results-sub" id="resultsSubtitle"></div>
-      </div>
-      <div id="eventCards"></div>
-      <hr class="sq-divider">
-      <button class="sq-restart" onclick="restart()">← Start over</button>
-    </div>
+  <div id="loadingSection" class="sq-loading">
+    <div class="sq-spinner"></div>
+    <div class="sq-loading-text" id="loadingText">Scanning fringe events for your profile...</div>
   </div>
+
+  <div id="errorSection" class="sq-error"></div>
+
+  <div id="resultsSection" class="sq-results">
+    <div class="sq-results-header">
+      <div class="sq-results-eyebrow">Your SideQuest</div>
+      <div class="sq-results-title">Your Cannes Itinerary</div>
+      <div class="sq-results-sub" id="resultsSubtitle"></div>
+    </div>
+    <div id="eventCards"></div>
+    <hr class="sq-divider">
+    <button class="sq-restart" onclick="restart()">← Start over</button>
+  </div>
+</div>
 
 <script>
 function getSelectedChips(id) {
