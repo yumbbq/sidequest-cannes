@@ -27,31 +27,19 @@
     .sq-spinner { width: 36px; height: 36px; border: 3px solid #eee; border-top-color: #1D9E75; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .sq-loading-text { font-size: 14px; color: #888; }
-    .sq-results { display: none; flex-direction: column; gap: 1rem; }
+    .sq-results { display: none; flex-direction: column; }
     .sq-results-title { font-size: 20px; font-weight: 600; margin-bottom: 0.25rem; }
-    .sq-results-sub { font-size: 13px; color: #888; margin-bottom: 0.5rem; }
-    .sq-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .sq-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-    .sq-card-name { font-size: 15px; font-weight: 600; line-height: 1.3; }
-    .sq-card-host { font-size: 12px; color: #999; margin-top: 2px; }
-    .sq-priority { font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
-    .sq-priority.high { background: #E1F5EE; color: #0F6E56; }
-    .sq-priority.medium { background: #FFF3E0; color: #8B5000; }
-    .sq-card-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #888; }
-    .sq-card-meta span { display: flex; align-items: center; gap: 4px; }
-    .sq-card-reason { font-size: 13px; color: #555; line-height: 1.6; border-left: 3px solid #1D9E75; padding-left: 10px; }
-    .sq-rsvp-btn { display: inline-block; font-size: 13px; color: #0F6E56; text-decoration: none; border: 1px solid #1D9E75; padding: 5px 14px; border-radius: 7px; margin-top: 4px; }
-    .sq-rsvp-btn:hover { background: #E1F5EE; }
+    .sq-results-sub { font-size: 13px; color: #888; margin-bottom: 0.25rem; }
     .sq-error { display: none; padding: 1rem 1.25rem; border-radius: 8px; background: #FEE; color: #C00; font-size: 14px; margin-top: 1rem; }
-    .sq-restart { margin-top: 1rem; font-size: 13px; color: #1D9E75; background: none; border: none; cursor: pointer; padding: 0; }
+    .sq-restart { margin-top: 1.5rem; font-size: 13px; color: #1D9E75; background: none; border: none; cursor: pointer; padding: 0; }
     .sq-divider { border: none; border-top: 1px solid #eee; margin: 1rem 0 0; }
   </style>
 </head>
 <body>
 <div class="sq-wrap">
-  <div class="sq-logo">Welcome to SideQuest · by Creativ Company</div>
-  <div class="sq-title">Plan your Cannes Itinerary</div>
-  <div class="sq-sub">Answer a few questions to get a personalized list of events by day.</div>
+  <div class="sq-logo">sidequest · creativ.com</div>
+  <div class="sq-title">Find your Cannes fringe schedule.</div>
+  <div class="sq-sub">Answer 6 questions. Get a personalized list of the right rooms, rooftops, and dinners for your week.</div>
 
   <div id="formSection" class="sq-form">
     <div class="sq-field">
@@ -67,6 +55,7 @@
         <option>Independent / Consultant</option>
       </select>
     </div>
+
     <div class="sq-field">
       <label class="sq-label">2. What is your primary focus this week?</label>
       <div class="sq-hint">Pick up to 2</div>
@@ -80,6 +69,7 @@
         <div class="sq-chip" data-val="Press and media coverage">Press & media coverage</div>
       </div>
     </div>
+
     <div class="sq-field">
       <label class="sq-label">3. Which topics are most relevant to your work right now?</label>
       <div class="sq-hint">Select all that apply</div>
@@ -95,6 +85,7 @@
         <div class="sq-chip" data-val="PR, Culture & Earned Media">PR, Culture & Earned Media</div>
       </div>
     </div>
+
     <div class="sq-field">
       <label class="sq-label">4. What kind of Cannes experience are you prioritizing?</label>
       <select class="sq-select" id="expType">
@@ -105,6 +96,7 @@
         <option>A mix — I want to maximize every hour</option>
       </select>
     </div>
+
     <div class="sq-field">
       <label class="sq-label">5. Which days are you in Cannes?</label>
       <div class="sq-chips" id="dayChips">
@@ -116,6 +108,7 @@
         <div class="sq-chip" data-val="Friday June 26">Fri Jun 26</div>
       </div>
     </div>
+
     <div class="sq-field">
       <label class="sq-label">6. How do you prefer to spend your mornings before 11am?</label>
       <select class="sq-select" id="morningPref">
@@ -126,6 +119,7 @@
         <option>Whatever's most strategic</option>
       </select>
     </div>
+
     <button class="sq-submit" onclick="handleSubmit()">Build my SideQuest itinerary →</button>
   </div>
 
@@ -133,7 +127,9 @@
     <div class="sq-spinner"></div>
     <div class="sq-loading-text" id="loadingText">Scanning fringe events for your profile...</div>
   </div>
+
   <div id="errorSection" class="sq-error"></div>
+
   <div id="resultsSection" class="sq-results">
     <div class="sq-results-title">Your Cannes SideQuest</div>
     <div class="sq-results-sub" id="resultsSubtitle"></div>
@@ -144,98 +140,6 @@
 </div>
 
 <script>
-const EVENTS = [
-  {name:"ADWEEK's Kickoff Soiree",host:"ADWEEK",time:"19:00-21:00",date:"Sunday, June 21",location:"Hotel Barrière Le Majestic",priority:"High",rsvp:"https://event.adweek.com/awh-cannes-2026"},
-  {name:"Morning Yoga & Wellness",host:"Cannes Lions",time:"08:00-09:00",date:"Monday, June 22",location:"Palais Wellness Suite",priority:"Medium",rsvp:""},
-  {name:"Adobe x Lions Creator Beach",host:"Adobe",time:"09:00-18:00",date:"Monday, June 22",location:"LIONS Creators Beach",priority:"Medium",rsvp:"https://www.canneslions.com/partnerships/our-partners/adobe"},
-  {name:"Meta Beach: Reels & Creative",host:"Meta",time:"11:00-12:30",date:"Monday, June 22",location:"Meta Beach",priority:"High",rsvp:""},
-  {name:"Reddit Beach: Community Lunch",host:"Reddit",time:"12:30-14:30",date:"Monday, June 22",location:"Reddit Beach",priority:"High",rsvp:""},
-  {name:"Vice Media: Cultural Trends",host:"Vice",time:"16:00-18:00",date:"Monday, June 22",location:"Vice Yacht",priority:"High",rsvp:""},
-  {name:"Campaign US: 40 Over 40 Mixer",host:"Campaign US",time:"17:00-19:00",date:"Monday, June 22",location:"Campaign US Hub",priority:"High",rsvp:"https://www.campaignatcannes.com/"},
-  {name:"Adobe Sunset Series",host:"ADWEEK",time:"17:00-19:00",date:"Monday, June 22",location:"Hotel Barrière Le Majestic",priority:"High",rsvp:"https://event.adweek.com/awh-cannes-2026"},
-  {name:"Publicis Groupe: The Power of One Mixer",host:"Publicis Groupe",time:"17:30-19:30",date:"Monday, June 22",location:"Publicis Terrace",priority:"High",rsvp:""},
-  {name:"The Marketing Society 2026 Cannes Kickoff",host:"The Marketing Society",time:"18:00-21:00",date:"Monday, June 22",location:"LBB & Friends Beach",priority:"Medium",rsvp:"https://www.marketingsociety.com/event/marketing-society-2026-cannes-kickoff"},
-  {name:"Cannes Lions Opening Gala",host:"Cannes Lions",time:"19:00-22:00",date:"Monday, June 22",location:"Carlton Beach",priority:"High",rsvp:""},
-  {name:"Cannes Brand Leaders Dinner",host:"Digiday",time:"19:00",date:"Monday, June 22",location:"Le Cirque",priority:"High",rsvp:"https://digiday.com/events/cannes-brand-leaders-dinner/"},
-  {name:"Special musical guest afterparty",host:"Digital Fight Club",time:"19:30-23:00",date:"Monday, June 22",location:"38 Prom. de la Pantiero",priority:"High",rsvp:"https://luma.com/dfccannes"},
-  {name:"Spotify Beach: Day 1 Music & Drinks",host:"Spotify",time:"21:00-02:00",date:"Monday, June 22",location:"Spotify Beach",priority:"High",rsvp:""},
-  {name:"CMO Roundtable",host:"Ad Age",time:"08:30-10:00",date:"Tuesday, June 23",location:"57 Bd de la Croisette",priority:"High",rsvp:"https://www.adageevents.com/event/cannes2026/cmo-roundtable"},
-  {name:"Leading Women at Cannes Breakfast",host:"Ad Age x Adlatina",time:"08:30-10:00",date:"Tuesday, June 23",location:"57 Bd de la Croisette",priority:"High",rsvp:"https://www.adageevents.com/event/cannes2026/leading-women-at-cannes"},
-  {name:"Amazon Port: Innovation Showcase",host:"Amazon Ads",time:"09:00-17:00",date:"Tuesday, June 23",location:"Amazon Port",priority:"High",rsvp:"https://advertising.amazon.com/events/cannes-lions"},
-  {name:"Pinterest Manifestival",host:"Pinterest",time:"10:00-18:00",date:"Tuesday, June 23",location:"Pinterest Beach",priority:"High",rsvp:"https://pinterestcannes.com/"},
-  {name:"GroupM: The State of Media",host:"GroupM",time:"10:00-11:30",date:"Tuesday, June 23",location:"GroupM Beach",priority:"High",rsvp:""},
-  {name:"Cannes Marketing Leaders Brunch",host:"Digiday",time:"10:30",date:"Tuesday, June 23",location:"Medami",priority:"High",rsvp:"https://digiday.com/events/cannes-marketing-leaders-brunch/"},
-  {name:"WPP: The Future of AI in Creative",host:"WPP / NVIDIA",time:"11:00-12:30",date:"Tuesday, June 23",location:"WPP Beach",priority:"High",rsvp:"https://www.wpp.com/en/events/wpp-at-cannes-lions-2026"},
-  {name:"Warner Bros. Discovery: Content Showcase",host:"WBD",time:"11:00-13:00",date:"Tuesday, June 23",location:"Carlton Beach",priority:"High",rsvp:""},
-  {name:"FT Exclusive Brunch Briefing",host:"Financial Times",time:"11:00-13:00",date:"Tuesday, June 23",location:"FT x Nikkei Teahouse",priority:"High",rsvp:"https://commercial.ft.com/campaigns/ftcannes-adcouncil-paperceiling/"},
-  {name:"Fuel up with Fortune",host:"Fortune",time:"12:00-16:00",date:"Tuesday, June 23",location:"38 Rue des Serbes",priority:"High",rsvp:"https://conferences.fortune.com/event/Fortune-at-cannes-2026/"},
-  {name:"Bloomberg Media: Executive Lunch",host:"Bloomberg",time:"12:30-14:00",date:"Tuesday, June 23",location:"Bloomberg Terrace",priority:"High",rsvp:"https://www.bloombergmedia.com/press/bloomberg-media-returns-with-good-business-at-cannes-lions-2026/"},
-  {name:"The New York Times: Truth in Advertising",host:"NYT",time:"14:00-15:30",date:"Tuesday, June 23",location:"NYT Hub",priority:"High",rsvp:""},
-  {name:"Cannes Panel & Cocktail Reception",host:"Digiday",time:"15:00",date:"Tuesday, June 23",location:"15 Rue Louis Blanc",priority:"High",rsvp:"https://digiday.com/events/cannes-panel-cocktail-reception/"},
-  {name:"FT Exclusive Briefing: People Like Us",host:"Financial Times",time:"16:00-19:00",date:"Tuesday, June 23",location:"FT x Nikkei Teahouse",priority:"High",rsvp:"https://peoplelikeusatcannes.live.ft.com/"},
-  {name:"The Cannes Social",host:"ExchangeWire & FirstPartyCapital",time:"16:00-19:00",date:"Tuesday, June 23",location:"Ma Nolan's",priority:"High",rsvp:"https://events.exchangewire.com/TheCannesSocial2026"},
-  {name:"The Drum Pub Quiz",host:"The Drum",time:"17:00-19:00",date:"Tuesday, June 23",location:"The Drum Pub",priority:"High",rsvp:"https://www.thedrum.com/calendar"},
-  {name:"Telemundo: Latin Excellence",host:"Telemundo",time:"18:00-20:00",date:"Tuesday, June 23",location:"Telemundo Yacht",priority:"High",rsvp:""},
-  {name:"Beet @ 20 Celebration in Cannes",host:"Beet.tv",time:"18:00-20:00",date:"Tuesday, June 23",location:"Yahoo Beach",priority:"High",rsvp:"https://www.beet.tv/"},
-  {name:"Pinterest Beach: The Manifestival Party",host:"Pinterest",time:"21:00-Late",date:"Tuesday, June 23",location:"Pinterest Beach",priority:"High",rsvp:"https://pinterestcannes.com/"},
-  {name:"GWI: Consumer Insights Breakfast",host:"GWI",time:"08:30-10:00",date:"Wednesday, June 24",location:"GWI Yacht",priority:"High",rsvp:""},
-  {name:"Ad Age: Creativity Editors Breakfast",host:"Ad Age",time:"09:00-10:30",date:"Wednesday, June 24",location:"Ad Age Terrace",priority:"High",rsvp:"https://www.adageevents.com/event/cannes2026/ad-age-the-list-lounge"},
-  {name:"Google Pier: The AI Future",host:"Google",time:"10:00-19:00",date:"Wednesday, June 24",location:"Google Pier",priority:"High",rsvp:""},
-  {name:"Meta Beach: Social Connection",host:"Meta",time:"10:00-18:00",date:"Wednesday, June 24",location:"Meta Beach",priority:"High",rsvp:""},
-  {name:"Amazon Ads: Performance Summit",host:"Amazon Ads",time:"10:00-12:00",date:"Wednesday, June 24",location:"Amazon Port",priority:"High",rsvp:"https://advertising.amazon.com/events/cannes-lions"},
-  {name:"Snapchat: The AR Garden",host:"Snap Inc.",time:"11:00-17:00",date:"Wednesday, June 24",location:"La Malmaison",priority:"High",rsvp:""},
-  {name:"FT Morning Insights: The Business of Influence",host:"Financial Times",time:"11:00-13:00",date:"Wednesday, June 24",location:"FT x Nikkei Teahouse",priority:"High",rsvp:"https://commercial.ft.com/campaigns/ftcannes-morninginsights/"},
-  {name:"The Hollywood Reporter: Power Lunch",host:"The Hollywood Reporter",time:"12:30-14:30",date:"Wednesday, June 24",location:"Carlton Terrace",priority:"High",rsvp:""},
-  {name:"Vevo: Music Video Masterclass",host:"Vevo",time:"13:00-14:30",date:"Wednesday, June 24",location:"Vevo Yacht",priority:"High",rsvp:""},
-  {name:"The Muse by Clio: Ads of the Week Live",host:"Clio / Amy Corr",time:"15:00-16:30",date:"Wednesday, June 24",location:"Clio Hub",priority:"High",rsvp:""},
-  {name:"Publisher Perspectives Happy Hour",host:"Publisher Perspectives",time:"15:00-17:00",date:"Wednesday, June 24",location:"Duke's Bar / Maison NDA",priority:"High",rsvp:"https://luma.com/6rxzztxg"},
-  {name:"Adweek Garden Party",host:"Adweek",time:"16:00-18:00",date:"Wednesday, June 24",location:"Adweek Garden",priority:"High",rsvp:"https://event.adweek.com/awh-cannes-2026"},
-  {name:"Global: The Audio Influence",host:"Global",time:"16:30-18:30",date:"Wednesday, June 24",location:"Global Yacht",priority:"High",rsvp:""},
-  {name:"Ad Age Lawn Party",host:"Ad Age",time:"17:30-19:30",date:"Wednesday, June 24",location:"The Lawn at Mondrian",priority:"High",rsvp:"https://www.adageevents.com/event/cannes2026/lawn-party"},
-  {name:"ADWEEK Creative 100 Reception",host:"ADWEEK",time:"17:30-19:30",date:"Wednesday, June 24",location:"Hotel Barrière Le Majestic",priority:"High",rsvp:"https://event.adweek.com/awh-cannes-2026"},
-  {name:"Adweek: The Brand Stars Gala",host:"Adweek",time:"19:00-Late",date:"Wednesday, June 24",location:"Majestic Hotel",priority:"High",rsvp:"https://event.adweek.com/awh-cannes-2026"},
-  {name:"WPP Beach Party",host:"WPP",time:"22:00-Late",date:"Wednesday, June 24",location:"WPP Beach",priority:"High",rsvp:"https://www.wpp.com/en/events/wpp-at-cannes-lions-2026"},
-  {name:"Nielsen: Audience Measurement Breakfast",host:"Nielsen",time:"08:30-10:00",date:"Thursday, June 25",location:"Nielsen Yacht",priority:"High",rsvp:""},
-  {name:"Campaign US: Editorial Roundtable",host:"Campaign US",time:"10:00-11:30",date:"Thursday, June 25",location:"Campaign US Hub",priority:"High",rsvp:"https://www.campaignatcannes.com/"},
-  {name:"Hearst: The Luxury Symposium",host:"Hearst",time:"11:00-13:00",date:"Thursday, June 25",location:"Hotel Majestic",priority:"High",rsvp:""},
-  {name:"Reddit Beach: The AMAs Live",host:"Reddit",time:"13:00-14:30",date:"Thursday, June 25",location:"Reddit Beach",priority:"High",rsvp:""},
-  {name:"The Drum: Creative Brief Live",host:"The Drum",time:"14:00-15:30",date:"Thursday, June 25",location:"The Drum Pub",priority:"High",rsvp:"https://www.thedrum.com/calendar"},
-  {name:"Magnite Yacht: Programmatic Power",host:"Magnite",time:"15:00-17:00",date:"Thursday, June 25",location:"Magnite Yacht",priority:"High",rsvp:"https://www.magnite.com/event-hub/"},
-  {name:"FT: Driving the Future of Marketing",host:"Financial Times",time:"16:00-18:00",date:"Thursday, June 25",location:"FT x Nikkei Teahouse",priority:"High",rsvp:"https://futureofmarketing.live.ft.com/"},
-  {name:"Omnicom Happy Hour",host:"Omnicom",time:"17:00-19:00",date:"Thursday, June 25",location:"Omnicom Suite",priority:"High",rsvp:""},
-  {name:"The Influencer Marketing Factory: Rooftop",host:"The Influencer Marketing Factory",time:"18:00-20:00",date:"Thursday, June 25",location:"Five Seas Hotel",priority:"High",rsvp:""},
-  {name:"Clio Awards: Winners Circle",host:"Clio Awards",time:"18:00-20:00",date:"Thursday, June 25",location:"Majestic Hotel",priority:"High",rsvp:""},
-  {name:"LBB & Friends: The Big Beach Party",host:"LBB",time:"19:00-Late",date:"Thursday, June 25",location:"LBB Beach",priority:"High",rsvp:"https://lbbonline.com/news/The-LBB-and-Friends-Beach-Will-Be-Back-at-Cannes-in-2026"},
-  {name:"Publicis Groupe Dinner",host:"Publicis Groupe",time:"20:00-23:00",date:"Thursday, June 25",location:"Private Villa",priority:"High",rsvp:""},
-  {name:"Beats Beach Party",host:"Beats by Dre",time:"21:00-Late",date:"Thursday, June 25",location:"Beats Beach",priority:"High",rsvp:""},
-  {name:"Spotify Beach: Closing Concert",host:"Spotify",time:"21:00-Late",date:"Thursday, June 25",location:"Spotify Beach",priority:"High",rsvp:""},
-  {name:"TikTok: Sound & Culture",host:"TikTok",time:"11:00-18:00",date:"Friday, June 26",location:"TikTok Garden",priority:"High",rsvp:""},
-  {name:"Closing Awards Ceremony",host:"Cannes Lions",time:"19:00-21:00",date:"Friday, June 26",location:"Palais des Festivals",priority:"High",rsvp:""},
-  {name:"Grand Prix Closing Party",host:"Cannes Lions",time:"22:00-Late",date:"Friday, June 26",location:"Carlton Beach",priority:"High",rsvp:""},
-  {name:"MediaLink: The C-Suite Executive Lounge",host:"MediaLink",time:"09:00-18:00",date:"All Week",location:"Hotel du Cap",priority:"High",rsvp:""},
-  {name:"The Wall Street Journal: Tech Terrace",host:"WSJ",time:"09:00-17:00",date:"All Week",location:"WSJ Terrace",priority:"High",rsvp:"https://journalhouse.wsj.com/cannes-lions-festival-of-creativity/"},
-  {name:"Fast Company: Innovation Hub",host:"Fast Company",time:"09:00-17:00",date:"All Week",location:"Fast Company Villa",priority:"High",rsvp:""},
-  {name:"Havas Café: Meaningful Mornings",host:"Havas",time:"09:00-10:30",date:"All Week",location:"Havas Café",priority:"High",rsvp:""},
-  {name:"LBB & Friends Beach",host:"Little Black Book",time:"10:00-17:00",date:"All Week",location:"LBB Beach",priority:"High",rsvp:"https://lbbonline.com/news/The-LBB-and-Friends-Beach-Will-Be-Back-at-Cannes-in-2026"},
-  {name:"Roku: The Streaming Pavilion",host:"Roku",time:"10:00-18:00",date:"All Week",location:"Roku Beach",priority:"High",rsvp:""},
-  {name:"Dentsu: The Modern Brand",host:"Dentsu",time:"10:00-17:00",date:"All Week",location:"Dentsu Villa",priority:"High",rsvp:""},
-  {name:"NBCUniversal: The Future of Entertainment",host:"NBCU",time:"10:00-18:00",date:"All Week",location:"NBCU Terrace",priority:"High",rsvp:""},
-  {name:"TikTok Creators Lounge",host:"TikTok",time:"10:00-17:00",date:"All Week",location:"TikTok Garden",priority:"High",rsvp:""},
-  {name:"YouTube: The Creator Era",host:"YouTube",time:"10:00-18:00",date:"All Week",location:"YouTube Beach",priority:"High",rsvp:""},
-  {name:"Google Pier: The AI Creative Lab",host:"Google",time:"10:00-17:00",date:"All Week",location:"Google Pier",priority:"High",rsvp:""},
-  {name:"Omnicom: The Creative Intelligence Hub",host:"Omnicom",time:"10:00-17:00",date:"All Week",location:"Omnicom Suite",priority:"High",rsvp:""},
-  {name:"Digiday @ Cannes",host:"Digiday",time:"All week",date:"All Week",location:"Cannes",priority:"High",rsvp:"https://digiday.com/events/digiday-in-cannes/"},
-  {name:"FT Live @ Cannes Lions",host:"Financial Times",time:"All week",date:"All Week",location:"Nikkei FT Teahouse",priority:"High",rsvp:"https://ftcannes.live.ft.com/"},
-  {name:"Inkwell Beach @ Cannes",host:"Inkwell",time:"All week",date:"All Week",location:"Inkwell Beach",priority:"High",rsvp:"https://luma.com/inkwellcannes2026"},
-  {name:"Marketing Leadership Summit",host:"Brand Innovators",time:"All week",date:"All Week",location:"Plage Rado / LVMH Villa",priority:"High",rsvp:"https://brand-innovators.com/events/marketing-leadership-summit-cannes-2026/"},
-  {name:"RTL Beach @ Cannes",host:"RTL",time:"All week",date:"All Week",location:"CBeach — Bd de la Croisette",priority:"High",rsvp:"https://rtl-adalliance.com/rtlbeach"},
-  {name:"The Secret Garden",host:"Dept",time:"All week",date:"All Week",location:"5 Rdpt Duboys d'Angers",priority:"High",rsvp:"https://www.deptagency.com/event/cannes-lions-2026/"},
-  {name:"LIONS Sport 2026",host:"Cannes Lions",time:"June 24-25",date:"All Week",location:"Carlton Hotel",priority:"High",rsvp:"https://www.canneslions.com/festival/experiences/lions-sport"},
-  {name:"Live Nation: The Power of Live",host:"Live Nation",time:"16:00-18:00",date:"Thursday, June 25",location:"Live Nation Beach",priority:"High",rsvp:""},
-  {name:"Cannes Lions Creators Beach",host:"Cannes Lions x Adobe",time:"All week",date:"All Week",location:"Palais De Festivals",priority:"High",rsvp:"https://www.canneslions.com/festival/experiences/lions-creators"},
-  {name:"Beet.TV Leadership Sessions",host:"Beet.TV",time:"All week",date:"All Week",location:"10 Bd de la Croisette",priority:"Medium",rsvp:"https://events.beet.tv/cannes"}
-];
-
 function getSelectedChips(id) {
   return Array.from(document.querySelectorAll(`#${id} .sq-chip.active`)).map(c => c.dataset.val);
 }
@@ -258,6 +162,30 @@ initChips('focusChips', 2);
 initChips('topicChips', null);
 initChips('dayChips', null);
 
+// Convert any time string to minutes since midnight for sorting
+// Handles both 12-hour (7:00 PM) and 24-hour (19:00) formats
+function timeToMinutes(timeStr) {
+  if (!timeStr) return 9999;
+  const str = timeStr.split('-')[0].trim();
+
+  // Check for AM/PM
+  const ampm = str.match(/(AM|PM)/i);
+  const cleaned = str.replace(/(AM|PM)/i, '').trim();
+  const parts = cleaned.split(':');
+  if (parts.length < 2) return 9999;
+
+  let hours = parseInt(parts[0]);
+  const mins = parseInt(parts[1]) || 0;
+
+  if (ampm) {
+    const meridiem = ampm[0].toUpperCase();
+    if (meridiem === 'PM' && hours !== 12) hours += 12;
+    if (meridiem === 'AM' && hours === 12) hours = 0;
+  }
+
+  return hours * 60 + mins;
+}
+
 async function handleSubmit() {
   const profile = {
     orgType: document.getElementById('orgType').value,
@@ -276,16 +204,27 @@ async function handleSubmit() {
   document.getElementById('formSection').style.display = 'none';
   document.getElementById('loadingSection').style.display = 'block';
 
-  const msgs = ['Scanning fringe events for your profile...', 'Cross-referencing your interests...', 'Curating your personalized SideQuest...'];
+  const msgs = [
+    'Scanning fringe events for your profile...',
+    'Cross-referencing your interests...',
+    'Curating your personalized SideQuest...'
+  ];
   let i = 0;
-  const ticker = setInterval(() => { i = (i+1) % msgs.length; document.getElementById('loadingText').textContent = msgs[i]; }, 2500);
+  const ticker = setInterval(() => {
+    i = (i + 1) % msgs.length;
+    document.getElementById('loadingText').textContent = msgs[i];
+  }, 2500);
 
   try {
+    const eventsRes = await fetch('/events.json');
+    const events = await eventsRes.json();
+
     const res = await fetch('/api/recommend', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profile, events: EVENTS })
+      body: JSON.stringify({ profile, events })
     });
+
     const data = await res.json();
     clearInterval(ticker);
     renderResults(data.recommendations, profile);
@@ -306,7 +245,6 @@ function renderResults(events, profile) {
   const container = document.getElementById('eventCards');
   container.innerHTML = '';
 
-  // Group events by date
   const dayOrder = [
     'Sunday, June 21',
     'Monday, June 22',
@@ -317,108 +255,79 @@ function renderResults(events, profile) {
     'All Week'
   ];
 
+  const dayLabels = {
+    'Sunday, June 21':    { short: 'SUN', num: '21', label: 'Sunday, June 21' },
+    'Monday, June 22':    { short: 'MON', num: '22', label: 'Monday, June 22' },
+    'Tuesday, June 23':   { short: 'TUE', num: '23', label: 'Tuesday, June 23' },
+    'Wednesday, June 24': { short: 'WED', num: '24', label: 'Wednesday, June 24' },
+    'Thursday, June 25':  { short: 'THU', num: '25', label: 'Thursday, June 25' },
+    'Friday, June 26':    { short: 'FRI', num: '26', label: 'Friday, June 26' },
+    'All Week':           { short: 'ALL', num: '★', label: 'All Week' }
+  };
+
+  // Group events by date — normalize date strings to match dayOrder
   const grouped = {};
   events.forEach(ev => {
-    const key = ev.date || 'All Week';
+    let key = ev.date || 'All Week';
+    if (key.includes('Week') || key.includes('week') || key.includes('June 21-26') || key.includes('June 22-26')) {
+      key = 'All Week';
+    }
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(ev);
   });
 
-  // Sort each day's events by start time
+  // Sort each day's events by start time — handles both 12hr and 24hr formats
   Object.keys(grouped).forEach(day => {
-    grouped[day].sort((a, b) => {
-      const timeA = a.time ? a.time.split('-')[0].replace(':', '').trim() : '9999';
-      const timeB = b.time ? b.time.split('-')[0].replace(':', '').trim() : '9999';
-      return timeA.localeCompare(timeB);
-    });
+    grouped[day].sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
   });
 
-  // Render in day order
-  const dayLabels = {
-    'Sunday, June 21': { short: 'SUN', num: '21', label: 'Sunday, June 21' },
-    'Monday, June 22': { short: 'MON', num: '22', label: 'Monday, June 22' },
-    'Tuesday, June 23': { short: 'TUE', num: '23', label: 'Tuesday, June 23' },
-    'Wednesday, June 24': { short: 'WED', num: '24', label: 'Wednesday, June 24' },
-    'Thursday, June 25': { short: 'THU', num: '25', label: 'Thursday, June 25' },
-    'Friday, June 26': { short: 'FRI', num: '26', label: 'Friday, June 26' },
-    'All Week': { short: 'ALL', num: '★', label: 'All Week' }
-  };
-
-  const sortedDays = dayOrder.filter(d => grouped[d]);
-
-  sortedDays.forEach(day => {
+  // Render days in order
+  dayOrder.filter(d => grouped[d]).forEach(day => {
     const dayInfo = dayLabels[day] || { short: 'DAY', num: '—', label: day };
     const dayEvents = grouped[day];
 
     // Day header
     const header = document.createElement('div');
-    header.style.cssText = `
-      display: flex; align-items: center; gap: 16px;
-      margin: 1.5rem 0 0.75rem;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #1D9E75;
-    `;
+    header.style.cssText = 'display:flex;align-items:center;gap:16px;margin:2rem 0 0.75rem;padding-bottom:10px;border-bottom:2px solid #1D9E75;';
     header.innerHTML = `
-      <div style="
-        background: #1D9E75; color: #fff;
-        border-radius: 10px; padding: 6px 14px;
-        text-align: center; min-width: 60px;
-        flex-shrink: 0;
-      ">
-        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.1em; opacity: 0.85;">${dayInfo.short}</div>
-        <div style="font-size: 22px; font-weight: 700; line-height: 1.1;">${dayInfo.num}</div>
+      <div style="background:#1D9E75;color:#fff;border-radius:10px;padding:6px 14px;text-align:center;min-width:60px;flex-shrink:0;">
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.1em;opacity:0.85;">${dayInfo.short}</div>
+        <div style="font-size:22px;font-weight:700;line-height:1.1;">${dayInfo.num}</div>
       </div>
       <div>
-        <div style="font-size: 17px; font-weight: 600; color: #1a1a18;">${dayInfo.label}</div>
-        <div style="font-size: 12px; color: #888;">${dayEvents.length} event${dayEvents.length !== 1 ? 's' : ''}</div>
+        <div style="font-size:17px;font-weight:600;color:#1a1a18;">${dayInfo.label}</div>
+        <div style="font-size:12px;color:#888;">${dayEvents.length} event${dayEvents.length !== 1 ? 's' : ''}</div>
       </div>
     `;
     container.appendChild(header);
 
-    // Events for this day
-    dayEvents.forEach(ev => {
+    // Event cards
+    dayEvents.forEach((ev, idx) => {
       const p = (ev.priority || 'Medium').toLowerCase() === 'high' ? 'high' : 'medium';
+      const isLast = idx === dayEvents.length - 1;
+      const startTime = ev.time ? ev.time.split('-')[0].trim() : '—';
       const card = document.createElement('div');
-      card.style.cssText = `
-        display: flex; gap: 14px;
-        margin-bottom: 10px;
-        align-items: stretch;
-      `;
+      card.style.cssText = 'display:flex;gap:14px;align-items:stretch;margin-bottom:8px;';
       card.innerHTML = `
-        <div style="
-          display: flex; flex-direction: column; align-items: center;
-          min-width: 52px; flex-shrink: 0;
-          padding-top: 4px;
-        ">
-          <div style="font-size: 12px; font-weight: 600; color: #1D9E75; white-space: nowrap;">
-            ${ev.time ? ev.time.split('-')[0].trim() : ''}
-          </div>
-          <div style="flex: 1; width: 1px; background: #e5e5e5; margin: 4px 0;"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:64px;flex-shrink:0;padding-top:6px;">
+          <div style="font-size:11px;font-weight:600;color:#1D9E75;white-space:nowrap;text-align:center;">${startTime}</div>
+          <div style="flex:1;width:1px;background:${isLast ? 'transparent' : '#e5e5e5'};margin:4px 0;"></div>
         </div>
-        <div style="
-          flex: 1; background: #fff;
-          border: 1px solid #eee; border-radius: 12px;
-          padding: 0.9rem 1.1rem;
-          margin-bottom: 2px;
-        ">
-          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px;">
+        <div style="flex:1;background:#fff;border:1px solid #eee;border-radius:12px;padding:0.9rem 1.1rem;margin-bottom:2px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;">
             <div>
-              <div style="font-size: 14px; font-weight: 600; color: #1a1a18; line-height: 1.3;">${ev.name}</div>
-              <div style="font-size: 11px; color: #999; margin-top: 1px;">${ev.host}</div>
+              <div style="font-size:14px;font-weight:600;color:#1a1a18;line-height:1.3;">${ev.name}</div>
+              <div style="font-size:11px;color:#999;margin-top:1px;">${ev.host}</div>
             </div>
-            <span style="
-              font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
-              ${p === 'high' ? 'background: #E1F5EE; color: #0F6E56;' : 'background: #FFF3E0; color: #8B5000;'}
-            ">${p === 'high' ? 'High priority' : 'Notable'}</span>
+            <span style="font-size:10px;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;${p === 'high' ? 'background:#E1F5EE;color:#0F6E56;' : 'background:#FFF3E0;color:#8B5000;'}">${p === 'high' ? 'High priority' : 'Notable'}</span>
           </div>
-          <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: #999; margin-bottom: 8px;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#999;margin-bottom:8px;">
             <i class="ti ti-map-pin" aria-hidden="true"></i>${ev.location}
-            ${ev.time ? `<span style="margin-left:4px;">· ${ev.time}</span>` : ''}
+            ${ev.time ? `<span>· ${ev.time}</span>` : ''}
+            ${ev.pricing ? `<span>· ${ev.pricing}</span>` : ''}
           </div>
-          <div style="font-size: 12px; color: #555; line-height: 1.6; border-left: 2px solid #1D9E75; padding-left: 8px; margin-bottom: ${ev.rsvp ? '10px' : '0'};">
-            ${ev.reason}
-          </div>
-          ${ev.rsvp ? `<a href="${ev.rsvp}" style="display:inline-block; font-size:12px; color:#0F6E56; text-decoration:none; border:1px solid #1D9E75; padding:4px 12px; border-radius:6px;" target="_blank">Register / Info ↗</a>` : ''}
+          <div style="font-size:12px;color:#555;line-height:1.6;border-left:2px solid #1D9E75;padding-left:8px;${ev.rsvp ? 'margin-bottom:10px;' : ''}">${ev.reason}</div>
+          ${ev.rsvp ? `<a href="${ev.rsvp}" style="display:inline-block;font-size:12px;color:#0F6E56;text-decoration:none;border:1px solid #1D9E75;padding:4px 12px;border-radius:6px;" target="_blank">Register / Info ↗</a>` : ''}
         </div>
       `;
       container.appendChild(card);
@@ -431,7 +340,7 @@ function restart() {
   document.getElementById('errorSection').style.display = 'none';
   document.getElementById('formSection').style.display = 'flex';
   document.querySelectorAll('.sq-chip.active').forEach(c => c.classList.remove('active'));
-  ['orgType','expType','morningPref'].forEach(id => document.getElementById(id).value = '');
+  ['orgType', 'expType', 'morningPref'].forEach(id => document.getElementById(id).value = '');
 }
 </script>
 </body>
