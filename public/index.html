@@ -165,7 +165,7 @@
     </div>
 
     <div class="sq-field">
-      <label class="sq-label">04 — How packed do you want your schedule?</label>
+      <label class="sq-label">04 — How packed do you want your schedule per day?</label>
       <div class="sq-hint">This determines how many events we recommend</div>
       <div class="sq-chips" id="scheduleChips">
         <div class="sq-chip" data-val="Light schedule — 3 to 4 curated events, high signal only">Light (3–4 events)</div>
@@ -382,7 +382,6 @@ function renderResults(events, profile) {
               <div class="sq-event-name">${ev.name}</div>
               <div class="sq-event-host">${ev.host}</div>
             </div>
-            <span class="sq-priority-badge ${isHigh ? 'sq-priority-high' : 'sq-priority-medium'}">${isHigh ? 'Priority' : 'Notable'}</span>
           </div>
           <div class="sq-event-meta">
             <span><i class="ti ti-map-pin" aria-hidden="true"></i>${ev.location}</span>
