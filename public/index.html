@@ -26,14 +26,12 @@
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     .sq-nav { background: var(--purple); border-bottom: none; padding: 0.9rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-    .sq-nav-logo { font-size: 13px; font-weight: 800; color: var(--purple); letter-spacing: -0.01em; }
     .sq-nav-pill { font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255,255,255,0.15); padding: 5px 14px; border-radius: 20px; }
 
-    .sq-hero { background: var(--purple); padding: 4rem 2rem 3.5rem; text-align: center; }
+    .sq-hero { background: var(--purple); padding: 2.5rem 2rem 3.5rem; text-align: center; }
     .sq-hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.25rem; }
     .sq-hero-title { font-size: 48px; font-weight: 800; color: var(--white); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 1rem; }
     .sq-hero-title .dot { color: var(--orange); }
-
     .sq-hero-sub { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 500px; margin: 0 auto; }
 
     .sq-wrap { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
@@ -61,7 +59,6 @@
     .sq-loading-text { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
     .sq-results { display: none; flex-direction: column; }
-
     .sq-results-header { background: var(--purple); border-radius: 18px; padding: 1.75rem 2rem; margin-bottom: 2rem; }
     .sq-results-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
     .sq-results-title { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.25rem; }
@@ -108,7 +105,9 @@
 <body>
 
 <nav class="sq-nav">
-  <a href="https://creativ.com/" target="_blank"><img src="https://creativ.com/logo.svg" alt="Creativ Company" style="height: 32px; width: auto; display: block;"></a>
+  <a href="https://creativ.com/" target="_blank">
+    <img src="https://creativ.com/logo.svg" alt="Creativ Company" style="height: 32px; width: auto; display: block; filter: brightness(0) invert(1);">
+  </a>
   <div class="sq-nav-pill">Cannes Lions 2026</div>
 </nav>
 
@@ -166,14 +165,13 @@
     </div>
 
     <div class="sq-field">
-      <label class="sq-label">04 — Cannes experience priority</label>
-      <select class="sq-select" id="expType">
-        <option value="">Select one...</option>
-        <option>Structured sessions and panels</option>
-        <option>Intimate dinners and private gatherings</option>
-        <option>Beach activations and open networking</option>
-        <option>A mix — I want to maximize every hour</option>
-      </select>
+      <label class="sq-label">04 — How packed do you want your schedule?</label>
+      <div class="sq-hint">This determines how many events we recommend</div>
+      <div class="sq-chips" id="scheduleChips">
+        <div class="sq-chip" data-val="Light schedule — 3 to 4 curated events, high signal only">Light (3–4 events)</div>
+        <div class="sq-chip" data-val="Balanced schedule — 5 to 6 events mixing sessions and networking">Balanced (5–6 events)</div>
+        <div class="sq-chip" data-val="Full schedule — 7 to 8 events, maximize every hour">Full (7–8 events)</div>
+      </div>
     </div>
 
     <div class="sq-field">
@@ -242,6 +240,7 @@ function initChips(id, max) {
 
 initChips('focusChips', 2);
 initChips('topicChips', null);
+initChips('scheduleChips', 1);
 initChips('dayChips', null);
 
 function timeToMinutes(timeStr) {
@@ -266,7 +265,7 @@ async function handleSubmit() {
     orgType: document.getElementById('orgType').value,
     focus: getSelectedChips('focusChips'),
     topics: getSelectedChips('topicChips'),
-    expType: document.getElementById('expType').value,
+    expType: getSelectedChips('scheduleChips')[0] || '',
     days: getSelectedChips('dayChips'),
     morningPref: document.getElementById('morningPref').value
   };
@@ -404,7 +403,7 @@ function restart() {
   document.getElementById('errorSection').style.display = 'none';
   document.getElementById('formSection').style.display = 'flex';
   document.querySelectorAll('.sq-chip.active').forEach(c => c.classList.remove('active'));
-  ['orgType', 'expType', 'morningPref'].forEach(id => document.getElementById(id).value = '');
+  ['orgType', 'morningPref'].forEach(id => document.getElementById(id).value = '');
 }
 </script>
 </body>
