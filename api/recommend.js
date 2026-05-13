@@ -14,7 +14,7 @@ Rules:
 - Match experience type preference (sessions vs. dinners vs. beach vs. mix).
 - Be opinionated — exclude events that are a poor fit even if they're popular.
 - For each event write exactly one sentence explaining why it's right for THIS specific person. Be specific, not generic.
-- Return ONLY a JSON array. No markdown, no prose, no explanation outside the array.
+- Return ONLY a raw JSON array. No markdown, no backticks, no explanation, no text before or after the array. Start your response with [ and end with ].
 
 JSON format for each event:
 {
@@ -25,6 +25,7 @@ JSON format for each event:
   "location": "location",
   "priority": "High or Medium",
   "rsvp": "url or empty string",
+  "pricing": "pricing string or empty string",
   "reason": "one sentence why this fits them specifically"
 }`;
 
@@ -68,8 +69,28 @@ ${JSON.stringify(events, null, 2)}`;
     }
 
     const raw = data.content.map(b => b.text || '').join('');
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const recommendations = JSON.parse(clean);
+
+    // Strip markdown fences and clean up
+    let clean = raw
+      .replace(/```json\s*/gi, '')
+      .replace(/```\s*/gi, '')
+      .trim();
+
+    // Extract just the JSON array if there's any surrounding text
+    const arrayMatch = clean.match(/\[[\s\S]*\]/);
+    if (arrayMatch) {
+      clean = arrayMatch[0];
+    }
+
+    let recommendations;
+    try {
+      recommendations = JSON.parse(clean);
+    } catch (parseErr) {
+      console.error('JSON parse error:', parseErr.message);
+      console.error('Raw response preview:', raw.substring(0, 500));
+      return res.status(500).json({ error: 'Failed to parse recommendations. Please try again.' });
+    }
+
     res.status(200).json({ recommendations });
   } catch (err) {
     console.error('Handler error:', err);
