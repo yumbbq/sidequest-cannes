@@ -316,7 +316,7 @@ function renderResults(events, profile) {
   document.getElementById('loadingSection').style.display = 'none';
   const results = document.getElementById('resultsSection');
   results.style.display = 'flex';
-  document.getElementById('resultsSubtitle').textContent = `${events.length} events · ${profile.orgType} · ${profile.days.join(', ')}`;
+  document.getElementById('resultsSubtitle').textContent = `${events.length} events tailored for a ${profile.orgType} · ${profile.days.join(', ')}`;
   const container = document.getElementById('eventCards');
   container.innerHTML = '';
 
