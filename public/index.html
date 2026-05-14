@@ -427,6 +427,14 @@
 </div>
 
 <script>
+    function track(event, data) {
+  const page = window.location.pathname.includes('index-b') ? 'index-b' : 'index';
+  fetch('/api/track', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event, page, timestamp: new Date().toISOString(), ...data })
+  }).catch(() => {}); // silent fail — never block the UI
+}
 const QUESTIONS = [
   {
     id: 'orgType',
@@ -732,6 +740,12 @@ async function handleSubmit() {
     clearInterval(ticker);
     loading.classList.remove('active');
     renderResults(data.recommendations, profile);
+    track('Complete', {
+  orgType: profile.orgType,
+  days: profile.days.join(', '),
+  expType: profile.expType,
+  eventCount: events.length
+    });
   } catch(e) {
     clearInterval(ticker);
     loading.classList.remove('active');
@@ -873,6 +887,12 @@ async function sendEmail() {
       statusEl.style.color = 'var(--purple)';
       statusEl.textContent = '✓ Itinerary sent! Check your inbox.';
       btn.textContent = 'Sent ✓';
+      track('Email', {
+        email: email,
+        orgType: currentProfile.orgType,
+        days: currentProfile.days.join(', '),
+        expType: currentProfile.expType
+        });
     } else { throw new Error(data.error); }
   } catch(e) {
     statusEl.style.display = 'block';
@@ -904,6 +924,7 @@ function restart() {
 
 // Init
 renderCard(0, null);
+track('Start', {});
 </script>
 </body>
 </html>
