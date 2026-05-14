@@ -452,10 +452,10 @@ function renderResults(events, profile) {
           </div>
           <div class="sq-event-reason">${ev.reason}</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
-           ${ev.rsvp ? `<a href="${ev.rsvp}" class="sq-rsvp" target="_blank" style="border-color:#c47d00;color:#c47d00;">Register / Info ↗</a>` : ''}
+          ${ev.rsvp ? `<a href="${ev.rsvp}" class="sq-rsvp" target="_blank" style="border-color:#c47d00;color:#c47d00;">Register / Info ↗</a>` : ''}
+
           ${(ev.pricing && ev.pricing.toLowerCase().includes('invite')) ? `<a href="mailto:hello@creativ.com?subject=SideQuest%20%E2%80%94%20Get%20me%20on%20the%20list%3A%20${encodeURIComponent(ev.name)}&body=Hi%20Creativ%20team%2C%0A%0AI%27d%20love%20to%20get%20on%20the%20list%20for%20the%20following%20event%3A%0A%0AEvent%3A%20${encodeURIComponent(ev.name)}%0AHost%3A%20${encodeURIComponent(ev.host)}%0ADate%3A%20${encodeURIComponent(ev.date)}%0ATime%3A%20${encodeURIComponent(ev.time)}%0ALocation%3A%20${encodeURIComponent(ev.location)}%0A%0AThanks!" class="sq-rsvp" style="border-color:#ccc;color:#888;">Help get me on the list ✉</a>` : ''}
           </div>
-        </div>
       `;
       container.appendChild(row);
     });
