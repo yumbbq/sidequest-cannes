@@ -214,12 +214,70 @@
       <div class="sq-results-sub" id="resultsSubtitle"></div>
     </div>
     <div id="eventCards"></div>
+    <div id="emailSection" style="margin-top: 2rem; background: #f0eeff; border-radius: 16px; padding: 1.5rem; display: none;">
+  <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.5rem;">Email my itinerary</div>
+  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Get this itinerary sent straight to your inbox.</div>
+  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <input type="email" id="emailInput" placeholder="your@email.com" style="flex: 1; min-width: 200px; padding: 11px 16px; font-size: 14px; font-family: inherit; border: 2px solid var(--border); border-radius: 12px; background: white; color: var(--text); outline: none;">
+    <button onclick="sendEmail()" style="padding: 11px 24px; font-size: 14px; font-weight: 700; font-family: inherit; border: none; border-radius: 12px; background: var(--purple); color: white; cursor: pointer; white-space: nowrap;">Send it →</button>
+  </div>
+  <div id="emailStatus" style="font-size: 13px; margin-top: 0.75rem; display: none;"></div>
+    </div>
     <hr class="sq-divider">
     <button class="sq-restart" onclick="restart()">← Start over</button>
   </div>
 </div>
 
 <script>
+
+let currentEvents = [];
+let currentProfile = {};
+
+async function sendEmail() {
+  const email = document.getElementById('emailInput').value;
+  const statusEl = document.getElementById('emailStatus');
+
+  if (!email || !email.includes('@')) {
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#cc0000';
+    statusEl.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  const btn = document.querySelector('#emailSection button');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        events: currentEvents,
+        profile: currentProfile
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      statusEl.style.display = 'block';
+      statusEl.style.color = '#2D1B8B';
+      statusEl.textContent = '✓ Itinerary sent! Check your inbox.';
+      btn.textContent = 'Sent ✓';
+    } else {
+      throw new Error(data.error);
+    }
+  } catch(e) {
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#cc0000';
+    statusEl.textContent = 'Something went wrong. Please try again.';
+    btn.textContent = 'Send it →';
+    btn.disabled = false;
+  }
+}
+
 function getSelectedChips(id) {
   return Array.from(document.querySelectorAll(`#${id} .sq-chip.active`)).map(c => c.dataset.val);
 }
@@ -312,6 +370,10 @@ async function handleSubmit() {
 }
 
 function renderResults(events, profile) {
+    currentEvents = events;
+    currentProfile = profile;
+    document.getElementById('emailSection').style.display = 'block';
+    
   document.getElementById('loadingSection').style.display = 'none';
   const results = document.getElementById('resultsSection');
   results.style.display = 'flex';
