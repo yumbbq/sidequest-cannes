@@ -114,38 +114,22 @@ export default async function handler(req, res) {
   }
 
   // Log to Google Sheets
-  try {
-    const { GoogleAuth } = await import('google-auth-library');
-    const { google } = await import('googleapis');
-
-    const auth = new GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Sheet1!A:E',
-      valueInputOption: 'RAW',
-      requestBody: {
-        values: [[
-          new Date().toISOString(),
-          email,
-          profile.orgType,
-          profile.days.join(', '),
-          profile.expType || ''
-        ]]
-      }
-    });
-  } catch (err) {
-    console.error('Sheets logging error:', err);
-    // Don't fail the request if logging fails — email already sent
-  }
+// Log to Google Sheets via Apps Script webhook
+try {
+  await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      timestamp: new Date().toISOString(),
+      email: email,
+      orgType: profile.orgType,
+      days: profile.days.join(', '),
+      expType: profile.expType || ''
+    })
+  });
+} catch (err) {
+  console.error('Sheets webhook error:', err);
+}
 
   res.status(200).json({ success: true });
 }
