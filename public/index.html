@@ -465,6 +465,19 @@ function restart() {
   document.getElementById('formSection').style.display = 'flex';
   document.querySelectorAll('.sq-chip.active').forEach(c => c.classList.remove('active'));
   ['orgType', 'morningPref'].forEach(id => document.getElementById(id).value = '');
+
+  // Reset email section
+  document.getElementById('emailSection').style.display = 'none';
+  document.getElementById('emailInput').value = '';
+  document.getElementById('emailStatus').style.display = 'none';
+  document.getElementById('emailStatus').textContent = '';
+  const btn = document.querySelector('#emailSection button');
+  btn.textContent = 'Send it →';
+  btn.disabled = false;
+
+  // Reset stored state
+  currentEvents = [];
+  currentProfile = {};
 }
 </script>
 </body>
