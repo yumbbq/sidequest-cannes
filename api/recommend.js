@@ -67,7 +67,7 @@ JSON format for each event — include all fields:
   // Trim details to 300 chars to save tokens while keeping key context
   const trimmedEvents = filteredEvents.map(ev => ({
     ...ev,
-    details: ev.details ? ev.details.substring(0, 300) : ''
+    details: ev.details ? ev.details.substring(0, 150) : ''
   }));
 
   const userMsg = `My profile:
