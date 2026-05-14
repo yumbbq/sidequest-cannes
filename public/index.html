@@ -529,9 +529,9 @@ let currentProfile = {};
 let isAnimating = false;
 
 function updateProgress() {
-  const pct = (current / QUESTIONS.length) * 100;
+  const pct = Math.round(((current + 1) / QUESTIONS.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = `${current + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progressCount').textContent = `${pct}%`;
 }
 
 function buildCardHTML(idx) {
