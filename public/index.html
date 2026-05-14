@@ -72,13 +72,19 @@
       margin-bottom: 1.25rem;
     }
     .sq-hero-title {
-      font-size: 48px;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.05;
-      letter-spacing: -0.025em;
-      margin-bottom: 1rem;
-    }
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+@media (max-width: 600px) {
+  .sq-hero-title { font-size: 32px; letter-spacing: -0.02em; }
+  .sq-hero-eyebrow { font-size: 10px; letter-spacing: 0.1em; }
+  .sq-hero { padding: 2rem 1.5rem 2.5rem; }
+  .sq-hero-sub { font-size: 13px; }
+}
     .sq-hero-title .dot { color: var(--orange); }
     .sq-hero-sub {
       font-size: 13px;
