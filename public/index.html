@@ -5,25 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SideQuest — Cannes Lions 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --purple: #2D1B8B;
       --purple-dark: #1E1060;
+      --purple-mid: #3d2aaa;
       --purple-light: #f0eeff;
       --orange: #F5A623;
+      --orange-dark: #E09010;
       --white: #ffffff;
-      --bg: #f4f3f8;
+      --bg: #f7f7fc;
       --text: #1a1a2e;
       --text-muted: #6b6b8a;
+      --text-light: #9999bb;
       --border: #e0e0f0;
       --card: #ffffff;
     }
 
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -31,10 +34,11 @@
       flex-direction: column;
     }
 
-    /* Nav */
+    /* Nav — matches index.html exactly */
     .sq-nav {
       background: var(--purple);
-      padding: 1rem 2rem;
+      border-bottom: none;
+      padding: 0.9rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -42,19 +46,53 @@
     }
     .sq-nav-pill {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--white);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       background: rgba(255,255,255,0.15);
       padding: 5px 14px;
       border-radius: 20px;
     }
 
+    /* Hero — matches index.html exactly */
+    .sq-hero {
+      background: var(--purple);
+      padding: 2.5rem 2rem 3.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .sq-hero-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.25rem;
+    }
+    .sq-hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+    }
+    .sq-hero-title .dot { color: var(--orange); }
+    .sq-hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
     /* Progress bar */
     .sq-progress-wrap {
-      background: var(--purple);
-      padding: 0 2rem 1.25rem;
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      padding: 1rem 2rem;
       flex-shrink: 0;
     }
     .sq-progress-meta {
@@ -65,20 +103,20 @@
     }
     .sq-progress-label {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
     }
     .sq-progress-count {
       font-size: 11px;
-      font-weight: 600;
-      color: var(--orange);
+      font-weight: 700;
+      color: var(--purple);
       letter-spacing: 0.05em;
     }
     .sq-progress-track {
-      height: 3px;
-      background: rgba(255,255,255,0.15);
+      height: 4px;
+      background: var(--border);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -90,15 +128,23 @@
       width: 0%;
     }
 
-    /* Card stage */
+    /* Stage — contains the card */
     .sq-stage {
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 2rem 1.5rem;
-      position: relative;
+      padding: 2.5rem 1.5rem 4rem;
       overflow: hidden;
+    }
+
+    /* Card wrapper handles overflow clipping */
+    .sq-card-wrap {
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      position: relative;
+      min-height: 300px;
     }
 
     .sq-card {
@@ -106,18 +152,23 @@
       border-radius: 20px;
       padding: 2.5rem 2rem;
       width: 100%;
-      max-width: 560px;
-      box-shadow: 0 4px 40px rgba(45,27,139,0.08);
-      position: absolute;
+      border: 2px solid var(--border);
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
     }
-    .sq-card.active { position: relative; transform: translateX(0); opacity: 1; }
-    .sq-card.exit-left { transform: translateX(-60px); opacity: 0; pointer-events: none; }
-    .sq-card.enter-right { transform: translateX(60px); opacity: 0; pointer-events: none; }
+    .sq-card.slide-enter-right { animation: slideInRight 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .sq-card.slide-enter-left  { animation: slideInLeft  0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .sq-card.slide-exit-left   { animation: slideOutLeft  0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .sq-card.slide-exit-right  { animation: slideOutRight 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+    @keyframes slideInRight  { from { transform: translateX(60px);  opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideInLeft   { from { transform: translateX(-60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOutLeft  { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-60px); opacity: 0; } }
+    @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(60px);  opacity: 0; } }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
 
     .sq-card-eyebrow {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--orange);
@@ -125,7 +176,7 @@
     }
     .sq-card-question {
       font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 28px;
+      font-size: 26px;
       line-height: 1.2;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -137,53 +188,56 @@
       line-height: 1.5;
     }
 
-    /* Options */
-    .sq-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+    /* Single select options */
+    .sq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
     .sq-option {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 13px 16px;
+      padding: 12px 16px;
       border: 2px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
       background: var(--white);
       transition: all 0.15s;
       text-align: left;
-      font-family: inherit;
+      font-family: 'Inter', inherit;
       font-size: 14px;
       font-weight: 500;
       color: var(--text-muted);
       width: 100%;
+      position: relative;
+      z-index: 1;
     }
-    .sq-option:hover { border-color: #c5bfee; color: var(--text); background: var(--purple-light); }
+    .sq-option:hover { border-color: var(--purple-mid); color: var(--purple); background: var(--purple-light); }
     .sq-option.selected { border-color: var(--purple); background: var(--purple-light); color: var(--purple); font-weight: 600; }
-    .sq-option-check {
-      width: 20px; height: 20px;
+    .sq-option-dot {
+      width: 18px; height: 18px;
       border: 2px solid var(--border);
       border-radius: 50%;
       flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
       transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .sq-option.selected .sq-option-check {
+    .sq-option.selected .sq-option-dot {
       background: var(--purple);
       border-color: var(--purple);
     }
-    .sq-option.selected .sq-option-check::after {
+    .sq-option.selected .sq-option-dot::after {
       content: '';
       width: 6px; height: 6px;
       background: white;
       border-radius: 50%;
+      display: block;
     }
 
     /* Multi-select chips */
     .sq-chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
     .sq-chip {
-      padding: 9px 16px;
+      padding: 8px 16px;
       font-size: 13px;
       font-weight: 500;
-      font-family: inherit;
+      font-family: 'Inter', inherit;
       border: 2px solid var(--border);
       border-radius: 24px;
       cursor: pointer;
@@ -191,8 +245,10 @@
       color: var(--text-muted);
       transition: all 0.15s;
       user-select: none;
+      position: relative;
+      z-index: 1;
     }
-    .sq-chip:hover { border-color: #c5bfee; color: var(--purple); }
+    .sq-chip:hover { border-color: var(--purple-mid); color: var(--purple); }
     .sq-chip.selected { background: var(--purple); border-color: var(--purple); color: var(--white); font-weight: 600; }
 
     /* Day grid */
@@ -205,80 +261,53 @@
       background: var(--white);
       text-align: center;
       transition: all 0.15s;
-      font-family: inherit;
+      font-family: 'Inter', inherit;
+      position: relative;
+      z-index: 1;
     }
-    .sq-day-btn:hover { border-color: #c5bfee; background: var(--purple-light); }
+    .sq-day-btn:hover { border-color: var(--purple-mid); background: var(--purple-light); }
     .sq-day-btn.selected { border-color: var(--purple); background: var(--purple-light); }
     .sq-day-short { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
     .sq-day-btn.selected .sq-day-short { color: var(--purple); }
-    .sq-day-num { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.2; }
+    .sq-day-num { font-size: 22px; font-weight: 800; color: var(--text); line-height: 1.2; }
     .sq-day-btn.selected .sq-day-num { color: var(--purple); }
 
-    /* CTA */
-    .sq-cta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+    /* CTA row */
+    .sq-cta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 0.25rem; }
     .sq-back {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      padding: 0;
-      opacity: 0.7;
-      transition: opacity 0.15s;
+      font-size: 13px; font-weight: 600; color: var(--text-muted);
+      background: none; border: none; cursor: pointer; font-family: 'Inter', inherit;
+      padding: 0; opacity: 0.7; transition: opacity 0.15s;
+      position: relative; z-index: 2;
     }
     .sq-back:hover { opacity: 1; }
     .sq-next {
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: inherit;
-      border: none;
-      border-radius: 50px;
-      background: var(--purple);
-      color: var(--white);
-      cursor: pointer;
-      transition: background 0.15s, transform 0.1s, opacity 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      padding: 13px 28px; font-size: 14px; font-weight: 700;
+      font-family: 'Inter', inherit; border: none; border-radius: 50px;
+      background: var(--purple); color: var(--white); cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex; align-items: center; gap: 8px;
+      position: relative; z-index: 2;
     }
     .sq-next:hover { background: var(--purple-dark); transform: translateY(-1px); }
-    .sq-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
     .sq-submit-btn {
-      padding: 15px 32px;
-      font-size: 15px;
-      font-weight: 800;
-      font-family: inherit;
-      border: none;
-      border-radius: 50px;
-      background: var(--orange);
-      color: var(--purple-dark);
-      cursor: pointer;
-      width: 100%;
-      margin-top: 0.5rem;
-      transition: background 0.15s, transform 0.1s;
+      padding: 15px 32px; font-size: 15px; font-weight: 800;
+      font-family: 'Inter', inherit; border: none; border-radius: 50px;
+      background: var(--orange); color: var(--purple-dark); cursor: pointer;
+      width: 100%; transition: background 0.15s, transform 0.1s;
+      margin-top: 0.25rem; position: relative; z-index: 2;
     }
-    .sq-submit-btn:hover { background: #e09010; transform: translateY(-1px); }
+    .sq-submit-btn:hover { background: var(--orange-dark); transform: translateY(-1px); }
 
     /* Loading */
     .sq-loading {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 1.5rem;
-      text-align: center;
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 5rem 1.5rem; text-align: center;
     }
     .sq-loading.active { display: flex; }
     .sq-spinner {
-      width: 44px; height: 44px;
+      width: 40px; height: 40px;
       border: 3px solid var(--border);
       border-top-color: var(--purple);
       border-radius: 50%;
@@ -286,14 +315,14 @@
       margin-bottom: 1.25rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .sq-loading-text { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+    .sq-loading-text { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
-    /* Results */
+    /* Results — identical to index.html */
     .sq-results { display: none; width: 100%; max-width: 680px; margin: 0 auto; padding: 0 1.5rem 4rem; }
     .sq-results.active { display: block; }
     .sq-results-header { background: var(--purple); border-radius: 18px; padding: 1.75rem 2rem; margin-bottom: 2rem; }
-    .sq-results-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
-    .sq-results-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--white); margin-bottom: 0.25rem; }
+    .sq-results-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
+    .sq-results-title { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.25rem; }
     .sq-results-sub { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
 
     .sq-day-header { display: flex; align-items: center; gap: 14px; margin: 2.5rem 0 1rem; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
@@ -323,10 +352,11 @@
 
     .sq-error { display: none; padding: 1rem 1.25rem; border-radius: 12px; background: #fff0f0; border: 2px solid #ffcccc; color: #cc0000; font-size: 14px; margin-top: 1rem; }
     .sq-divider { border: none; border-top: 2px solid var(--border); margin: 2.5rem 0 0; }
-    .sq-restart { margin-top: 1.25rem; font-size: 13px; font-weight: 700; color: var(--purple); background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; opacity: 0.7; }
+    .sq-restart { margin-top: 1.25rem; font-size: 13px; font-weight: 700; color: var(--purple); background: none; border: none; cursor: pointer; padding: 0; font-family: 'Inter', inherit; opacity: 0.7; }
     .sq-restart:hover { opacity: 1; }
 
     @media (max-width: 480px) {
+      .sq-hero-title { font-size: 32px; }
       .sq-card { padding: 2rem 1.25rem; }
       .sq-card-question { font-size: 22px; }
       .sq-day-grid { grid-template-columns: repeat(2, 1fr); }
@@ -342,6 +372,12 @@
   <div class="sq-nav-pill">Cannes Lions 2026</div>
 </nav>
 
+<div class="sq-hero">
+  <div class="sq-hero-eyebrow">Welcome to SideQuest · By Creativ Company</div>
+  <div class="sq-hero-title">Plan your Cannes Itinerary<span class="dot">.</span></div>
+  <div class="sq-hero-sub">Answer a few questions to get a personalized list of events by day.</div>
+</div>
+
 <div class="sq-progress-wrap" id="progressWrap">
   <div class="sq-progress-meta">
     <span class="sq-progress-label">Building your SideQuest</span>
@@ -353,7 +389,9 @@
 </div>
 
 <div class="sq-stage" id="stage">
-  <!-- Cards rendered by JS -->
+  <div class="sq-card-wrap" id="cardWrap">
+    <!-- Cards rendered here -->
+  </div>
 </div>
 
 <div class="sq-loading" id="loadingSection">
@@ -482,106 +520,135 @@ const answers = {};
 let current = 0;
 let currentEvents = [];
 let currentProfile = {};
+let isAnimating = false;
 
 function updateProgress() {
-  const pct = ((current) / QUESTIONS.length) * 100;
+  const pct = (current / QUESTIONS.length) * 100;
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressCount').textContent = `${current + 1} of ${QUESTIONS.length}`;
 }
 
-function renderCard(idx, direction = 'right') {
-  const stage = document.getElementById('stage');
+function buildCardHTML(idx) {
   const q = QUESTIONS[idx];
-  const card = document.createElement('div');
-  card.className = `sq-card enter-${direction}`;
-  card.id = 'currentCard';
-
   let inputHtml = '';
 
   if (q.type === 'single') {
     inputHtml = `<div class="sq-options">` +
-      q.options.map((opt, i) => `
-        <button class="sq-option${answers[q.id] === opt ? ' selected' : ''}" onclick="selectSingle(this, '${q.id}', ${JSON.stringify(opt)})">
-          <div class="sq-option-check"></div>
+      q.options.map(opt => `
+        <button class="sq-option${answers[q.id] === opt ? ' selected' : ''}" data-qid="${q.id}" data-val="${opt.replace(/"/g,"'")}" onclick="selectSingle(this)">
+          <div class="sq-option-dot"></div>
           <span>${opt}</span>
         </button>
-      `).join('') +
-      `</div>`;
+      `).join('') + `</div>`;
   } else if (q.type === 'multi') {
-    const selected = answers[q.id] || [];
+    const sel = answers[q.id] || [];
     inputHtml = `<div class="sq-chip-grid">` +
       q.options.map(opt => `
-        <button class="sq-chip${selected.includes(opt) ? ' selected' : ''}" onclick="toggleChip(this, '${q.id}', ${JSON.stringify(opt)}, ${q.max})">
+        <button class="sq-chip${sel.includes(opt) ? ' selected' : ''}" data-qid="${q.id}" data-val="${opt.replace(/"/g,"'")}" data-max="${q.max||''}" onclick="toggleChip(this)">
           ${opt}
         </button>
-      `).join('') +
-      `</div>`;
+      `).join('') + `</div>`;
   } else if (q.type === 'days') {
-    const selected = answers[q.id] || [];
+    const sel = answers[q.id] || [];
     inputHtml = `<div class="sq-day-grid">` +
       q.options.map(opt => `
-        <button class="sq-day-btn${selected.includes(opt.val) ? ' selected' : ''}" onclick="toggleDay(this, ${JSON.stringify(opt.val)})">
+        <button class="sq-day-btn${sel.includes(opt.val) ? ' selected' : ''}" data-val="${opt.val}" onclick="toggleDay(this)">
           <div class="sq-day-short">${opt.short}</div>
           <div class="sq-day-num">${opt.num}</div>
         </button>
-      `).join('') +
-      `</div>`;
+      `).join('') + `</div>`;
   }
 
   const isLast = idx === QUESTIONS.length - 1;
-
-  card.innerHTML = `
+  return `
     <div class="sq-card-eyebrow">${q.eyebrow}</div>
     <div class="sq-card-question">${q.question}</div>
     <div class="sq-card-hint">${q.hint}</div>
     ${inputHtml}
     <div class="sq-cta">
-      ${idx > 0 ? `<button class="sq-back" onclick="goBack()">← Back</button>` : `<span></span>`}
+      ${idx > 0
+        ? `<button class="sq-back" onclick="goBack()">← Back</button>`
+        : `<span></span>`}
       ${isLast
         ? `<button class="sq-submit-btn" onclick="handleSubmit()">Build my SideQuest →</button>`
-        : `<button class="sq-next" onclick="goNext()" id="nextBtn">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>`
-      }
+        : `<button class="sq-next" onclick="goNext()">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>`}
     </div>
   `;
+}
 
-  // Remove old card with exit animation
-  const old = stage.querySelector('.sq-card.active');
-  if (old) {
-    old.classList.remove('active');
-    old.classList.add(direction === 'right' ? 'exit-left' : 'exit-right');
-    setTimeout(() => old.remove(), 350);
+function renderCard(idx, direction) {
+  if (isAnimating) return;
+  const wrap = document.getElementById('cardWrap');
+
+  // Create new card
+  const newCard = document.createElement('div');
+  newCard.className = 'sq-card';
+  newCard.innerHTML = buildCardHTML(idx);
+
+  if (!direction) {
+    // First render — no animation
+    wrap.innerHTML = '';
+    wrap.appendChild(newCard);
+    updateProgress();
+    return;
   }
 
-  stage.appendChild(card);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      card.classList.remove(`enter-${direction}`);
-      card.classList.add('active');
-    });
-  });
+  isAnimating = true;
+  const oldCard = wrap.querySelector('.sq-card');
+
+  // Animate old card out
+  if (oldCard) {
+    oldCard.classList.add(direction === 'right' ? 'slide-exit-left' : 'slide-exit-right');
+  }
+
+  // Add new card offscreen
+  newCard.style.position = 'absolute';
+  newCard.style.top = '0';
+  newCard.style.left = '0';
+  newCard.style.right = '0';
+  newCard.classList.add(direction === 'right' ? 'slide-enter-right' : 'slide-enter-left');
+  wrap.style.position = 'relative';
+  wrap.appendChild(newCard);
+
+  setTimeout(() => {
+    if (oldCard) oldCard.remove();
+    newCard.style.position = '';
+    newCard.style.top = '';
+    newCard.style.left = '';
+    newCard.style.right = '';
+    wrap.style.position = '';
+    newCard.classList.remove('slide-enter-right', 'slide-enter-left');
+    isAnimating = false;
+  }, 350);
 
   updateProgress();
 }
 
-function selectSingle(el, id, val) {
-  document.querySelectorAll('.sq-option').forEach(o => o.classList.remove('selected'));
+function selectSingle(el) {
+  const qid = el.dataset.qid;
+  const val = el.dataset.val;
+  document.querySelectorAll(`.sq-option[data-qid="${qid}"]`).forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  answers[id] = val;
+  answers[qid] = val;
 }
 
-function toggleChip(el, id, val, max) {
-  if (!answers[id]) answers[id] = [];
+function toggleChip(el) {
+  const qid = el.dataset.qid;
+  const val = el.dataset.val;
+  const max = el.dataset.max ? parseInt(el.dataset.max) : null;
+  if (!answers[qid]) answers[qid] = [];
   if (el.classList.contains('selected')) {
     el.classList.remove('selected');
-    answers[id] = answers[id].filter(v => v !== val);
+    answers[qid] = answers[qid].filter(v => v !== val);
   } else {
-    if (max && answers[id].length >= max) return;
+    if (max && answers[qid].length >= max) return;
     el.classList.add('selected');
-    answers[id].push(val);
+    answers[qid].push(val);
   }
 }
 
-function toggleDay(el, val) {
+function toggleDay(el) {
+  const val = el.dataset.val;
   if (!answers.days) answers.days = [];
   if (el.classList.contains('selected')) {
     el.classList.remove('selected');
@@ -602,8 +669,9 @@ function validate() {
 }
 
 function goNext() {
+  if (isAnimating) return;
   if (!validate()) {
-    const card = document.getElementById('currentCard');
+    const card = document.querySelector('.sq-card');
     card.style.animation = 'shake 0.3s ease';
     setTimeout(() => card.style.animation = '', 300);
     return;
@@ -613,6 +681,7 @@ function goNext() {
 }
 
 function goBack() {
+  if (isAnimating) return;
   current--;
   renderCard(current, 'left');
 }
@@ -629,12 +698,6 @@ async function handleSubmit() {
     morningPref: answers.morningPref || ''
   };
 
-  if (!profile.orgType || !profile.focus.length || !profile.topics.length || !profile.expType || !profile.days.length || !profile.morningPref) {
-    alert('Please complete all questions before building your itinerary.');
-    return;
-  }
-
-  // Hide form UI
   document.getElementById('stage').style.display = 'none';
   document.getElementById('progressWrap').style.display = 'none';
   const loading = document.getElementById('loadingSection');
@@ -818,28 +881,23 @@ function restart() {
   Object.keys(answers).forEach(k => delete answers[k]);
   current = 0;
   currentEvents = [];
-  currentProfile = [];
+  currentProfile = {};
+  isAnimating = false;
   document.getElementById('resultsSection').classList.remove('active');
   document.getElementById('errorSection').style.display = 'none';
   document.getElementById('emailSection').style.display = 'none';
   document.getElementById('emailInput').value = '';
   document.getElementById('emailStatus').style.display = 'none';
-  const btn = document.querySelector('#emailSection button');
-  if (btn) { btn.textContent = 'Send it →'; btn.disabled = false; }
+  const emailBtn = document.querySelector('#emailSection button');
+  if (emailBtn) { emailBtn.textContent = 'Send it →'; emailBtn.disabled = false; }
   document.getElementById('stage').style.display = 'flex';
   document.getElementById('progressWrap').style.display = 'block';
-  const stage = document.getElementById('stage');
-  stage.innerHTML = '';
-  renderCard(0, 'right');
+  document.getElementById('cardWrap').innerHTML = '';
+  renderCard(0, null);
 }
 
-// Shake animation
-const style = document.createElement('style');
-style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }`;
-document.head.appendChild(style);
-
 // Init
-renderCard(0, 'right');
+renderCard(0, null);
 </script>
 </body>
 </html>
