@@ -21,9 +21,10 @@ export default async function handler(req, res) {
     const text = await response.text();
 
     // Strip the Google wrapper /*O_o*/ and trailing )
-    const jsonStart = text.indexOf('{');
-    const jsonEnd = text.lastIndexOf('}');
-    const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+    // Strip the Google wrapper /*O_o*/\ngoogle.visualization.Query.setResponse( ... );
+    const jsonStart = text.indexOf('(') + 1;
+    const jsonEnd = text.lastIndexOf(')');
+    const json = JSON.parse(text.substring(jsonStart, jsonEnd));    
     const rows = json.table.rows;
 
     const events = [];
