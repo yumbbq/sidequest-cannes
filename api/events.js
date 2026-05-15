@@ -15,17 +15,66 @@ export default async function handler(req, res) {
 
   try {
     const sheetId = process.env.GOOGLE_SHEET_EVENTS_ID;
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Sheet1`;
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=Sheet1`;
 
-    const response = await fetch(url);
-    const text = await response.text();
+const response = await fetch(url, {
+  headers: { 'User-Agent': 'Mozilla/5.0' }
+});
+const text = await response.text();
 
-    // Strip the Google wrapper /*O_o*/ and trailing )
-    // Strip the Google wrapper /*O_o*/\ngoogle.visualization.Query.setResponse( ... );
-    const jsonStart = text.indexOf('(') + 1;
-    const jsonEnd = text.lastIndexOf(')');
-    const json = JSON.parse(text.substring(jsonStart, jsonEnd));    
-    const rows = json.table.rows;
+// Parse CSV
+const lines = text.trim().split('\n');
+
+// Row 0 = title banner, Row 1 = headers, data starts at Row 2
+const rows = lines.slice(2);
+
+const parseCSVLine = (line) => {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current.trim());
+  return result;
+};
+
+const events = [];
+for (const line of rows) {
+  if (!line.trim()) continue;
+  const c = parseCSVLine(line);
+  const get = (idx) => (c[idx] || '').trim().replace(/\n/g, ' ');
+
+  const name = get(1);
+  if (!name || name === 'Event') continue;
+
+  let date = get(4);
+  if (['Week','week','June 21-26','June 22-26','June 23 - 24','June 24 - 25'].some(x => date.includes(x))) {
+    date = 'All Week';
+  }
+
+  const rsvp = get(7);
+
+  events.push({
+    name,
+    host:     get(2),
+    time:     get(3),
+    date,
+    location: get(5),
+    details:  get(6).substring(0, 150),
+    rsvp:     (rsvp === 'N/A' || rsvp === '') ? '' : rsvp,
+    pricing:  get(8)
+  });
+}
 
     const events = [];
 
