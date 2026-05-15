@@ -17,11 +17,12 @@ Rules:
 - Include a mix of morning, afternoon, and evening events where available and appropriate.
 - For each event write exactly one sentence explaining why it is right for THIS specific person. Reference their org type, focus area, or topic directly. Be specific, not generic.
 - Return ONLY a raw JSON array. No markdown, no backticks, no explanation, no text before or after the array. Start your response with [ and end with ].
+- If the user has listed specific events they already plan to attend, include those in the results and build the rest of the schedule around them to avoid time conflicts where possible.
 
 Schedule preference determines how many events to return — respect this count strictly:
-- "Light schedule — 3 to 4 curated events, high signal only": return exactly 4 events, the absolute highest-signal matches only
-- "Balanced schedule — 5 to 6 events mixing sessions and networking": return exactly 6 events with a deliberate mix of session types
-- "Full schedule — 7 to 8 events, maximize every hour": return exactly 10 events spread across all attending days with morning, afternoon, and evening coverage
+- "Light schedule — 3 to 4 curated events, high signal only": return exactly 8 events, the highest-signal matches only
+- "Balanced schedule — 5 to 6 events mixing sessions and networking": return exactly 12 events with a deliberate mix of session types
+- "Full schedule — 7 to 8 events, maximize your day with a lot of options": return exactly 18 events spread across all attending days with morning, afternoon, and evening coverage
 
 JSON format for each event — include all fields:
 {
@@ -77,6 +78,8 @@ JSON format for each event — include all fields:
 - Schedule preference: ${profile.expType}
 - Days attending: ${profile.days.join(', ')}
 - Morning preference: ${profile.morningPref}
+${profile.mustAttend ? `- Events already on my radar that I plan to attend: ${profile.mustAttend}` : ''}
+
 
 Event list (${trimmedEvents.length} events matching my attending days):
 ${JSON.stringify(trimmedEvents, null, 2)}`;

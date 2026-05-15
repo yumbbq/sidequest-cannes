@@ -528,6 +528,14 @@ const QUESTIONS = [
       'Whatever\'s most strategic'
     ]
   }
+
+  {
+  id: 'mustAttend',
+  type: 'freetext',
+  eyebrow: 'Bonus Question',
+  question: 'Any must-attend events already on your radar?',
+  hint: 'Big beach parties, dinners, or events you\'ve already heard about — we\'ll factor these in and build around them. Leave blank if none.'
+  }
 ];
 
 const answers = {};
@@ -572,6 +580,20 @@ function buildCardHTML(idx) {
         </button>
       `).join('') + `</div>`;
   }
+
+  } else if (q.type === 'freetext') {
+  const val = answers[q.id] || '';
+  inputHtml = `
+    <textarea
+      id="freetext_${q.id}"
+      placeholder="e.g. Spotify Beach, WPP Party, a client dinner on Wednesday..."
+      oninput="answers['${q.id}'] = this.value"
+      style="width:100%;padding:12px 16px;font-size:14px;font-family:inherit;border:2px solid var(--border);border-radius:12px;background:white;color:var(--text);resize:vertical;min-height:90px;outline:none;transition:border-color 0.15s;"
+      onfocus="this.style.borderColor='var(--purple-mid)'"
+      onblur="this.style.borderColor='var(--border)'"
+    >${val}</textarea>
+  `;
+    }
 
   const isLast = idx === QUESTIONS.length - 1;
   return `
@@ -676,11 +698,13 @@ function toggleDay(el) {
 function validate() {
   const q = QUESTIONS[current];
   const val = answers[q.id];
+  if (q.type === 'freetext') return true; // optional
   if (q.type === 'single') return !!val;
   if (q.type === 'multi') return val && val.length > 0;
   if (q.type === 'days') return val && val.length > 0;
   return true;
 }
+
 
 function goNext() {
   if (isAnimating) return;
