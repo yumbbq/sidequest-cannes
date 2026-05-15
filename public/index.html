@@ -24,143 +24,35 @@
       --border: #e0e0f0;
       --card: #ffffff;
     }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    .sq-nav { background: var(--purple); border-bottom: none; padding: 0.9rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .sq-nav-pill { font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255,255,255,0.15); padding: 5px 14px; border-radius: 20px; }
 
-    /* Nav — matches index.html exactly */
-    .sq-nav {
-      background: var(--purple);
-      border-bottom: none;
-      padding: 0.9rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-    .sq-nav-pill {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.15);
-      padding: 5px 14px;
-      border-radius: 20px;
-    }
-
-    /* Hero — matches index.html exactly */
-    .sq-hero {
-      background: var(--purple);
-      padding: 2.5rem 2rem 3.5rem;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .sq-hero-eyebrow {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 1.25rem;
-    }
-    .sq-hero-title {
-  font-size: 48px;
-  font-weight: 800;
-  color: var(--white);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  margin-bottom: 1rem;
-}
-@media (max-width: 600px) {
-  .sq-hero-title { font-size: 32px; letter-spacing: -0.02em; }
-  .sq-hero-eyebrow { font-size: 10px; letter-spacing: 0.1em; }
-  .sq-hero { padding: 2rem 1.5rem 2.5rem; }
-  .sq-hero-sub { font-size: 13px; }
-}
+    .sq-hero { background: var(--purple); padding: 2.5rem 2rem 3.5rem; text-align: center; flex-shrink: 0; }
+    .sq-hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.25rem; }
+    .sq-hero-title { font-size: 48px; font-weight: 800; color: var(--white); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 1rem; }
     .sq-hero-title .dot { color: var(--orange); }
-    .sq-hero-sub {
-      font-size: 13px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.6;
-      max-width: 500px;
-      margin: 0 auto;
+    .sq-hero-sub { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 500px; margin: 0 auto; }
+
+    @media (max-width: 600px) {
+      .sq-hero-title { font-size: 32px; letter-spacing: -0.02em; }
+      .sq-hero-eyebrow { font-size: 10px; letter-spacing: 0.1em; }
+      .sq-hero { padding: 2rem 1.5rem 2.5rem; }
+      .sq-hero-sub { font-size: 13px; }
     }
 
-    /* Progress bar */
-    .sq-progress-wrap {
-      background: var(--white);
-      border-bottom: 2px solid var(--border);
-      padding: 1rem 2rem;
-      flex-shrink: 0;
-    }
-    .sq-progress-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .sq-progress-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .sq-progress-count {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--purple);
-      letter-spacing: 0.05em;
-    }
-    .sq-progress-track {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .sq-progress-fill {
-      height: 100%;
-      background: var(--orange);
-      border-radius: 2px;
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      width: 0%;
-    }
+    .sq-progress-wrap { background: var(--white); border-bottom: 2px solid var(--border); padding: 1rem 2rem; flex-shrink: 0; }
+    .sq-progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .sq-progress-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+    .sq-progress-count { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: 0.05em; }
+    .sq-progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .sq-progress-fill { height: 100%; background: var(--orange); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
 
-    /* Stage — contains the card */
-    .sq-stage {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 2.5rem 1.5rem 4rem;
-      overflow: hidden;
-    }
+    .sq-stage { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 2.5rem 1.5rem 4rem; overflow: hidden; }
+    .sq-card-wrap { width: 100%; max-width: 560px; overflow: hidden; position: relative; min-height: 300px; }
 
-    /* Card wrapper handles overflow clipping */
-    .sq-card-wrap {
-      width: 100%;
-      max-width: 560px;
-      overflow: hidden;
-      position: relative;
-      min-height: 300px;
-    }
-
-    .sq-card {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 2.5rem 2rem;
-      width: 100%;
-      border: 2px solid var(--border);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
-    }
+    .sq-card { background: var(--card); border-radius: 20px; padding: 2.5rem 2rem; width: 100%; border: 2px solid var(--border); }
     .sq-card.slide-enter-right { animation: slideInRight 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
     .sq-card.slide-enter-left  { animation: slideInLeft  0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
     .sq-card.slide-exit-left   { animation: slideOutLeft  0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
@@ -171,106 +63,27 @@
     @keyframes slideOutLeft  { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-60px); opacity: 0; } }
     @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(60px);  opacity: 0; } }
     @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .sq-card-eyebrow {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.75rem;
-    }
-    .sq-card-question {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 26px;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .sq-card-hint {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 1.75rem;
-      line-height: 1.5;
-    }
+    .sq-card-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem; }
+    .sq-card-question { font-family: 'DM Serif Display', Georgia, serif; font-size: 26px; line-height: 1.2; color: var(--text); margin-bottom: 0.5rem; }
+    .sq-card-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 1.75rem; line-height: 1.5; }
 
-    /* Single select options */
     .sq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
-    .sq-option {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      background: var(--white);
-      transition: all 0.15s;
-      text-align: left;
-      font-family: 'Inter', inherit;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
+    .sq-option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; background: var(--white); transition: all 0.15s; text-align: left; font-family: 'Inter', inherit; font-size: 14px; font-weight: 500; color: var(--text-muted); width: 100%; position: relative; z-index: 1; }
     .sq-option:hover { border-color: var(--purple-mid); color: var(--purple); background: var(--purple-light); }
     .sq-option.selected { border-color: var(--purple); background: var(--purple-light); color: var(--purple); font-weight: 600; }
-    .sq-option-dot {
-      width: 18px; height: 18px;
-      border: 2px solid var(--border);
-      border-radius: 50%;
-      flex-shrink: 0;
-      transition: all 0.15s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sq-option.selected .sq-option-dot {
-      background: var(--purple);
-      border-color: var(--purple);
-    }
-    .sq-option.selected .sq-option-dot::after {
-      content: '';
-      width: 6px; height: 6px;
-      background: white;
-      border-radius: 50%;
-      display: block;
-    }
+    .sq-option-dot { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .sq-option.selected .sq-option-dot { background: var(--purple); border-color: var(--purple); }
+    .sq-option.selected .sq-option-dot::after { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; display: block; }
 
-    /* Multi-select chips */
     .sq-chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
-    .sq-chip {
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: 'Inter', inherit;
-      border: 2px solid var(--border);
-      border-radius: 24px;
-      cursor: pointer;
-      background: var(--white);
-      color: var(--text-muted);
-      transition: all 0.15s;
-      user-select: none;
-      position: relative;
-      z-index: 1;
-    }
+    .sq-chip { padding: 8px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', inherit; border: 2px solid var(--border); border-radius: 24px; cursor: pointer; background: var(--white); color: var(--text-muted); transition: all 0.15s; user-select: none; position: relative; z-index: 1; }
     .sq-chip:hover { border-color: var(--purple-mid); color: var(--purple); }
     .sq-chip.selected { background: var(--purple); border-color: var(--purple); color: var(--white); font-weight: 600; }
 
-    /* Day grid */
     .sq-day-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1.75rem; }
-    .sq-day-btn {
-      padding: 14px 8px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      background: var(--white);
-      text-align: center;
-      transition: all 0.15s;
-      font-family: 'Inter', inherit;
-      position: relative;
-      z-index: 1;
-    }
+    .sq-day-btn { padding: 14px 8px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; background: var(--white); text-align: center; transition: all 0.15s; font-family: 'Inter', inherit; position: relative; z-index: 1; }
     .sq-day-btn:hover { border-color: var(--purple-mid); background: var(--purple-light); }
     .sq-day-btn.selected { border-color: var(--purple); background: var(--purple-light); }
     .sq-day-short { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
@@ -278,52 +91,19 @@
     .sq-day-num { font-size: 22px; font-weight: 800; color: var(--text); line-height: 1.2; }
     .sq-day-btn.selected .sq-day-num { color: var(--purple); }
 
-    /* CTA row */
     .sq-cta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 0.25rem; }
-    .sq-back {
-      font-size: 13px; font-weight: 600; color: var(--text-muted);
-      background: none; border: none; cursor: pointer; font-family: 'Inter', inherit;
-      padding: 0; opacity: 0.7; transition: opacity 0.15s;
-      position: relative; z-index: 2;
-    }
+    .sq-back { font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: 'Inter', inherit; padding: 0; opacity: 0.7; transition: opacity 0.15s; position: relative; z-index: 2; }
     .sq-back:hover { opacity: 1; }
-    .sq-next {
-      padding: 13px 28px; font-size: 14px; font-weight: 700;
-      font-family: 'Inter', inherit; border: none; border-radius: 50px;
-      background: var(--purple); color: var(--white); cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
-      display: flex; align-items: center; gap: 8px;
-      position: relative; z-index: 2;
-    }
+    .sq-next { padding: 13px 28px; font-size: 14px; font-weight: 700; font-family: 'Inter', inherit; border: none; border-radius: 50px; background: var(--purple); color: var(--white); cursor: pointer; transition: background 0.15s, transform 0.1s; display: flex; align-items: center; gap: 8px; position: relative; z-index: 2; }
     .sq-next:hover { background: var(--purple-dark); transform: translateY(-1px); }
-    .sq-submit-btn {
-      padding: 15px 32px; font-size: 15px; font-weight: 800;
-      font-family: 'Inter', inherit; border: none; border-radius: 50px;
-      background: var(--orange); color: var(--purple-dark); cursor: pointer;
-      width: 100%; transition: background 0.15s, transform 0.1s;
-      margin-top: 0.25rem; position: relative; z-index: 2;
-    }
+    .sq-submit-btn { padding: 15px 32px; font-size: 15px; font-weight: 800; font-family: 'Inter', inherit; border: none; border-radius: 50px; background: var(--orange); color: var(--purple-dark); cursor: pointer; width: 100%; transition: background 0.15s, transform 0.1s; margin-top: 0.25rem; position: relative; z-index: 2; }
     .sq-submit-btn:hover { background: var(--orange-dark); transform: translateY(-1px); }
 
-    /* Loading */
-    .sq-loading {
-      display: none; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 5rem 1.5rem; text-align: center;
-    }
+    .sq-loading { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 1.5rem; text-align: center; }
     .sq-loading.active { display: flex; }
-    .sq-spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--border);
-      border-top-color: var(--purple);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 1.25rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .sq-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--purple); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1.25rem; }
     .sq-loading-text { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
-    /* Results — identical to index.html */
     .sq-results { display: none; width: 100%; max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
     .sq-results.active { display: block; }
     .sq-results-header { background: var(--purple); border-radius: 18px; padding: 1.75rem 2rem; margin-bottom: 2rem; }
@@ -362,7 +142,6 @@
     .sq-restart:hover { opacity: 1; }
 
     @media (max-width: 480px) {
-      .sq-hero-title { font-size: 32px; }
       .sq-card { padding: 2rem 1.25rem; }
       .sq-card-question { font-size: 22px; }
       .sq-day-grid { grid-template-columns: repeat(2, 1fr); }
@@ -387,7 +166,7 @@
 <div class="sq-progress-wrap" id="progressWrap">
   <div class="sq-progress-meta">
     <span class="sq-progress-label">Building your SideQuest</span>
-    <span class="sq-progress-count" id="progressCount">1 of 6</span>
+    <span class="sq-progress-count" id="progressCount">0%</span>
   </div>
   <div class="sq-progress-track">
     <div class="sq-progress-fill" id="progressFill"></div>
@@ -395,9 +174,7 @@
 </div>
 
 <div class="sq-stage" id="stage">
-  <div class="sq-card-wrap" id="cardWrap">
-    <!-- Cards rendered here -->
-  </div>
+  <div class="sq-card-wrap" id="cardWrap"></div>
 </div>
 
 <div class="sq-loading" id="loadingSection">
@@ -427,19 +204,20 @@
 </div>
 
 <script>
-    function track(event, data) {
-  const page = window.location.pathname.includes('index-b') ? 'index-b' : 'index';
+function track(event, data) {
+  const page = window.location.pathname.includes('index2') ? 'index2' : 'index';
   fetch('/api/track', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ event, page, timestamp: new Date().toISOString(), ...data })
-  }).catch(() => {}); // silent fail — never block the UI
+  }).catch(() => {});
 }
+
 const QUESTIONS = [
   {
     id: 'orgType',
     type: 'single',
-    eyebrow: 'Question 1 of 6',
+    eyebrow: 'Question 1 of 7',
     question: 'What type of organization are you representing?',
     hint: 'This helps us match you with the right rooms and conversations.',
     options: [
@@ -456,7 +234,7 @@ const QUESTIONS = [
     id: 'focus',
     type: 'multi',
     max: 2,
-    eyebrow: 'Question 2 of 6',
+    eyebrow: 'Question 2 of 7',
     question: 'What is your primary focus this week?',
     hint: 'Pick up to 2 — we\'ll weight your itinerary around these.',
     options: [
@@ -473,7 +251,7 @@ const QUESTIONS = [
     id: 'topics',
     type: 'multi',
     max: null,
-    eyebrow: 'Question 3 of 6',
+    eyebrow: 'Question 3 of 7',
     question: 'Which topics are most relevant to your work right now?',
     hint: 'Select all that apply — more context means better matches.',
     options: [
@@ -491,7 +269,7 @@ const QUESTIONS = [
   {
     id: 'expType',
     type: 'single',
-    eyebrow: 'Question 4 of 6',
+    eyebrow: 'Question 4 of 7',
     question: 'How packed do you want your schedule?',
     hint: 'This determines how many events we recommend.',
     options: [
@@ -503,7 +281,7 @@ const QUESTIONS = [
   {
     id: 'days',
     type: 'days',
-    eyebrow: 'Question 5 of 6',
+    eyebrow: 'Question 5 of 7',
     question: 'Which days are you in Cannes?',
     hint: 'Select all that apply — we\'ll only show events on your days.',
     options: [
@@ -518,7 +296,7 @@ const QUESTIONS = [
   {
     id: 'morningPref',
     type: 'single',
-    eyebrow: 'Question 6 of 6',
+    eyebrow: 'Question 6 of 7',
     question: 'How do you prefer to spend your mornings before 11am?',
     hint: 'We\'ll avoid stacking early events if you\'re a late starter.',
     options: [
@@ -527,14 +305,13 @@ const QUESTIONS = [
       'Prep time — I hit the ground at 11',
       'Whatever\'s most strategic'
     ]
-  }
-
+  },
   {
-  id: 'mustAttend',
-  type: 'freetext',
-  eyebrow: 'Bonus Question',
-  question: 'Any must-attend events already on your radar?',
-  hint: 'Big beach parties, dinners, or events you\'ve already heard about — we\'ll factor these in and build around them. Leave blank if none.'
+    id: 'mustAttend',
+    type: 'freetext',
+    eyebrow: 'Question 7 of 7',
+    question: 'Any must-attend events already on your radar?',
+    hint: 'Big beach parties, dinners, or events you\'ve already heard about — we\'ll factor these in and build around them. Leave blank if none.'
   }
 ];
 
@@ -579,21 +356,19 @@ function buildCardHTML(idx) {
           <div class="sq-day-num">${opt.num}</div>
         </button>
       `).join('') + `</div>`;
-  }
-
   } else if (q.type === 'freetext') {
-  const val = answers[q.id] || '';
-  inputHtml = `
-    <textarea
-      id="freetext_${q.id}"
-      placeholder="e.g. Spotify Beach, WPP Party, a client dinner on Wednesday..."
-      oninput="answers['${q.id}'] = this.value"
-      style="width:100%;padding:12px 16px;font-size:14px;font-family:inherit;border:2px solid var(--border);border-radius:12px;background:white;color:var(--text);resize:vertical;min-height:90px;outline:none;transition:border-color 0.15s;"
-      onfocus="this.style.borderColor='var(--purple-mid)'"
-      onblur="this.style.borderColor='var(--border)'"
-    >${val}</textarea>
-  `;
-    }
+    const val = answers[q.id] || '';
+    inputHtml = `
+      <textarea
+        id="freetext_${q.id}"
+        placeholder="e.g. Spotify Beach, WPP Party, a client dinner on Wednesday..."
+        oninput="answers['${q.id}'] = this.value"
+        style="width:100%;padding:12px 16px;font-size:14px;font-family:inherit;border:2px solid var(--border);border-radius:12px;background:white;color:var(--text);resize:vertical;min-height:90px;outline:none;transition:border-color 0.15s;"
+        onfocus="this.style.borderColor='var(--purple-mid)'"
+        onblur="this.style.borderColor='var(--border)'"
+      >${val}</textarea>
+    `;
+  }
 
   const isLast = idx === QUESTIONS.length - 1;
   return `
@@ -602,9 +377,7 @@ function buildCardHTML(idx) {
     <div class="sq-card-hint">${q.hint}</div>
     ${inputHtml}
     <div class="sq-cta">
-      ${idx > 0
-        ? `<button class="sq-back" onclick="goBack()">← Back</button>`
-        : `<span></span>`}
+      ${idx > 0 ? `<button class="sq-back" onclick="goBack()">← Back</button>` : `<span></span>`}
       ${isLast
         ? `<button class="sq-submit-btn" onclick="handleSubmit()">Build my SideQuest →</button>`
         : `<button class="sq-next" onclick="goNext()">Next <i class="ti ti-arrow-right" aria-hidden="true"></i></button>`}
@@ -615,14 +388,11 @@ function buildCardHTML(idx) {
 function renderCard(idx, direction) {
   if (isAnimating) return;
   const wrap = document.getElementById('cardWrap');
-
-  // Create new card
   const newCard = document.createElement('div');
   newCard.className = 'sq-card';
   newCard.innerHTML = buildCardHTML(idx);
 
   if (!direction) {
-    // First render — no animation
     wrap.innerHTML = '';
     wrap.appendChild(newCard);
     updateProgress();
@@ -631,13 +401,8 @@ function renderCard(idx, direction) {
 
   isAnimating = true;
   const oldCard = wrap.querySelector('.sq-card');
+  if (oldCard) oldCard.classList.add(direction === 'right' ? 'slide-exit-left' : 'slide-exit-right');
 
-  // Animate old card out
-  if (oldCard) {
-    oldCard.classList.add(direction === 'right' ? 'slide-exit-left' : 'slide-exit-right');
-  }
-
-  // Add new card offscreen
   newCard.style.position = 'absolute';
   newCard.style.top = '0';
   newCard.style.left = '0';
@@ -698,13 +463,12 @@ function toggleDay(el) {
 function validate() {
   const q = QUESTIONS[current];
   const val = answers[q.id];
-  if (q.type === 'freetext') return true; // optional
+  if (q.type === 'freetext') return true;
   if (q.type === 'single') return !!val;
   if (q.type === 'multi') return val && val.length > 0;
   if (q.type === 'days') return val && val.length > 0;
   return true;
 }
-
 
 function goNext() {
   if (isAnimating) return;
@@ -733,7 +497,8 @@ async function handleSubmit() {
     topics: answers.topics || [],
     expType: answers.expType || '',
     days: answers.days || [],
-    morningPref: answers.morningPref || ''
+    morningPref: answers.morningPref || '',
+    mustAttend: answers.mustAttend || ''
   };
 
   document.getElementById('stage').style.display = 'none';
@@ -765,10 +530,10 @@ async function handleSubmit() {
     loading.classList.remove('active');
     renderResults(data.recommendations, profile);
     track('Complete', {
-  orgType: profile.orgType,
-  days: profile.days.join(', '),
-  expType: profile.expType,
-  eventCount: events.length
+      orgType: profile.orgType,
+      days: profile.days.join(', '),
+      expType: profile.expType,
+      eventCount: data.recommendations.length
     });
   } catch(e) {
     clearInterval(ticker);
@@ -801,7 +566,6 @@ function timeToMinutes(timeStr) {
 function renderResults(events, profile) {
   currentEvents = events;
   currentProfile = profile;
-
   const results = document.getElementById('resultsSection');
   results.classList.add('active');
   document.getElementById('resultsSubtitle').textContent = `${events.length} events tailored for a ${profile.orgType} · ${profile.days.join(', ')}`;
@@ -916,7 +680,7 @@ async function sendEmail() {
         orgType: currentProfile.orgType,
         days: currentProfile.days.join(', '),
         expType: currentProfile.expType
-        });
+      });
     } else { throw new Error(data.error); }
   } catch(e) {
     statusEl.style.display = 'block';
