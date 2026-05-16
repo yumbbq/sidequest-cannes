@@ -642,7 +642,7 @@ function renderResults(events, profile) {
           <div class="sq-event-reason">${ev.reason}</div>
           <div class="sq-btn-row">
             ${ev.rsvp ? `<a href="${ev.rsvp}" class="sq-rsvp" target="_blank">Register / Info ↗</a>` : ''}
-            ${isInvite ? `<a href="${mailtoUrl}" class="sq-list-btn">Help me get on the list ✉</a>` : ''}
+            <a href="${mailtoUrl}" class="sq-list-btn" target="_blank">Help me get on the list ✉</a>
           </div>
         </div>
       `;
