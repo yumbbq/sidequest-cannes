@@ -64,7 +64,14 @@ export default async function handler(req, res) {
       // H(7)=Registration URL, I(8)=RSVP/Pricing
 
       const name = get(1);
-      if (!name || name === 'Event' || name === 'Cannes 2026 Event Calander') continue;
+        if (!name || name === 'Event' || name === 'Cannes 2026 Event Calander') continue;
+
+        // Skip malformed rows — valid event names shouldn't start with a postal code or contain commas
+        if (name.match(/^\d{5}/) || name.includes('https://') || name.length > 120) continue;
+
+        // Skip rows with no valid date
+        const rawDate = get(4);
+        if (!rawDate && !name) continue;    
 
       let date = get(4);
       if (['Week', 'week', 'June 21-26', 'June 22-26', 'June 23 - 24', 'June 24 - 25'].some(x => date.includes(x))) {
