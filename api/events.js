@@ -76,13 +76,13 @@ export default async function handler(req, res) {
       parsed.push({
         name,
         host:     get(2),
-        time:     get(3),
+        time:     get(3) === 'TBD' ? '' : get(3),
         date,
         location: get(5),
         details:  get(6).substring(0, 150),
         rsvp:     (rsvpUrl === 'N/A' || rsvpUrl === '') ? '' : rsvpUrl,
-        pricing:  get(8)
-      });
+        pricing:  (get(8) === 'TBD' || get(8) === 'N/A') ? '' : get(8)
+        });
     }
 
     cachedData = parsed;

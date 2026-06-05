@@ -617,7 +617,7 @@ function renderResults(events, profile) {
 
     dayEvents.forEach((ev, idx) => {
       const isLast = idx === dayEvents.length - 1;
-      const startTime = ev.time ? ev.time.split('-')[0].trim() : '—';
+      const startTime = (ev.time && ev.time !== 'TBD') ? ev.time.split('-')[0].trim() : '—';
       const isInvite = ev.pricing && ev.pricing.toLowerCase().includes('invite');
       const mailtoUrl = `mailto:hello@creativ.com?subject=SideQuest%20%E2%80%94%20Help%20me%20get%20on%20the%20list%3A%20${encodeURIComponent(ev.name)}&body=Hi%20Creativ%20team%2C%0A%0AI%27d%20love%20to%20get%20on%20the%20list%20for%20the%20following%20event%3A%0A%0AEvent%3A%20${encodeURIComponent(ev.name)}%0AHost%3A%20${encodeURIComponent(ev.host)}%0ADate%3A%20${encodeURIComponent(ev.date)}%0ATime%3A%20${encodeURIComponent(ev.time)}%0ALocation%3A%20${encodeURIComponent(ev.location)}%0A%0AThanks!`;
 
@@ -637,8 +637,8 @@ function renderResults(events, profile) {
           </div>
           <div class="sq-event-meta">
             <span><i class="ti ti-map-pin" aria-hidden="true"></i>${ev.location}</span>
-            ${ev.time ? `<span><i class="ti ti-clock" aria-hidden="true"></i>${ev.time}</span>` : ''}
-            ${ev.pricing ? `<span><i class="ti ti-ticket" aria-hidden="true"></i>${ev.pricing}</span>` : ''}
+            ${ev.time && ev.time !== 'TBD' ? `<span><i class="ti ti-clock" aria-hidden="true"></i>${ev.time}</span>` : ''}
+            ${ev.pricing && ev.pricing !== 'TBD' && ev.pricing !== 'N/A' ? `<span><i class="ti ti-ticket" aria-hidden="true"></i>${ev.pricing}</span>` : ''}
           </div>
           <div class="sq-event-reason">${ev.reason}</div>
           <div class="sq-btn-row">

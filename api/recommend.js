@@ -17,8 +17,37 @@ Rules:
 - Include a mix of morning, afternoon, and evening events where available and appropriate.
 - For each event write exactly one sentence explaining why it is right for THIS specific person. Reference their org type, focus area, or topic directly. Be specific, not generic.
 - Return ONLY a raw JSON array. No markdown, no backticks, no explanation, no text before or after the array. Start your response with [ and end with ].
-- If the user has listed specific events they already plan to attend, include those in the results and build the rest of the schedule around them to avoid time conflicts where possible.
+- If the user has listed specific events they already plan to attend, include those in the results and build the rest of the schedule around them to avoid time conflicts where possible. For these events, still write a genuine one-sentence reason explaining why it fits their profile — never say they already plan to attend or assume they are registered.
 
+Fix 2 — Don't show TBD values in the UI
+In both index.html and index-b.html, find the event meta section inside renderResults:
+javascript${ev.time ? `<span><i class="ti ti-clock" aria-hidden="true"></i>${ev.time}</span>` : ''}
+${ev.pricing ? `<span><i class="ti ti-ticket" aria-hidden="true"></i>${ev.pricing}</span>` : ''}
+Replace with:
+javascript${ev.time && ev.time !== 'TBD' ? `<span><i class="ti ti-clock" aria-hidden="true"></i>${ev.time}</span>` : ''}
+${ev.pricing && ev.pricing !== 'TBD' && ev.pricing !== 'N/A' ? `<span><i class="ti ti-ticket" aria-hidden="true"></i>${ev.pricing}</span>` : ''}
+And the time column:
+javascriptconst startTime = ev.time ? ev.time.split('-')[0].trim() : '—';
+Replace with:
+javascriptconst startTime = (ev.time && ev.time !== 'TBD') ? ev.time.split('-')[0].trim() : '—';
+Also update api/events.js to filter out TBD values at the source — find the push block and update:
+javascriptevents.push({
+  name,
+  host:     get(2),
+  time:     get(3) === 'TBD' ? '' : get(3),
+  date,
+  location: get(5),
+  details:  get(6).substring(0, 150),
+  rsvp:     (rsvpUrl === 'N/A' || rsvpUrl === '') ? '' : rsvpUrl,
+  pricing:  (get(8) === 'TBD' || get(8) === 'N/A') ? '' : get(8)
+});
+This strips TBD and N/A at the data layer so they never reach the UI or Claude.
+
+Press Cmd + S on all three files, then:
+bashgit add .
+git commit -m "fix mustAttend reason copy, strip TBD values from display"
+git push origin main
+vercel --prod
 Schedule preference determines how many events to return — respect this count strictly:
 - "Light schedule — 3 to 4 curated events, high signal only": return exactly 8 events, the highest-signal matches only
 - "Balanced schedule — 5 to 6 events mixing sessions and networking": return exactly 12 events with a deliberate mix of session types
